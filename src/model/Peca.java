@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core;
+package model;
 
 /**
  *
- * @author rafaelpaiva
+ * @author lucas
  */
-public interface CardEffect {
-    public void Execute(int player, int effect);
+public interface Peca {
+    public int[] valores();
 }
