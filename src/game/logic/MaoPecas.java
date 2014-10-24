@@ -8,18 +8,25 @@ package game.logic;
 import game.logic.interfaces.*;
 import java.util.ArrayList;
 import java.util.List;
+import jpl.Term;
+import jpl.Util;
 import model.Peca;
+import model.PecaConcreta;
 
 /**
  *
  * @author lucas
  */
-public class MaoPecas implements Mao{
+public class MaoPecas implements Mao<Peca>{
 
     private List<Peca> mao;
     
     public MaoPecas(){
         mao = new ArrayList<>();
+    }
+    
+    public MaoPecas(List<Peca> lista) {
+	mao = new ArrayList<>(lista);
     }
 
     @Override
@@ -46,6 +53,15 @@ public class MaoPecas implements Mao{
     @Override
     public Peca verPeca(int i) {
 	return mao.get(i);
+    }
+
+    @Override
+    public Term getTerm() {
+	Term[] lista = new Term[qtdMao()];
+	for (int i = 0; i < lista.length; i++) {
+	    lista[i] = verPeca(i).getTerm();
+	}
+	return Util.termArrayToList(lista);
     }
     
 }

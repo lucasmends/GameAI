@@ -5,17 +5,19 @@
  */
 package game.logic.interfaces;
 
-import model.Peca;
+import jpl.Term;
 
 /**
  *
  * @author lucas
  */
-public interface Mao {
+public interface Mao<T> {
     
-    public Peca removePeca(int i);
-    public Peca removePeca(Peca p);
+    public T removePeca(int i);
+    public T removePeca(T p);
     public int qtdMao();
-    public void addPeca(Peca p);
-    public Peca verPeca(int i);
+    public void addPeca(T p);
+    public T verPeca(int i);
+    
+    public Term getTerm();
 }

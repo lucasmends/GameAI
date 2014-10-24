@@ -5,13 +5,15 @@
  */
 package game.logic.interfaces;
 
-import model.Peca;
+import java.util.List;
 
 /**
  *
  * @author lucas
+ * @param <T>
  */
-public interface Pilha {
+public interface Pilha<T> {
     public int qtdRestantes();
-    public Peca getProxima();
+    public T getProxima();
+    public void popular(List<T> list);
 }

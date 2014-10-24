@@ -8,12 +8,18 @@ package core;
 import game.logic.MaoPecas;
 import game.logic.PilhaPecas;
 import game.logic.interfaces.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
 import jpl.Atom;
 import jpl.Query;
 import jpl.Term;
 import jpl.Util;
 import jpl.Variable;
+import model.Peca;
+import model.PecaConcreta;
 
 /**
  *
@@ -43,19 +49,22 @@ public class Bootstrap {
             while (qpecas.hasMoreSolutions()) {
                 Hashtable binding = qpecas.nextSolution();
                 Term px = (Term) binding.get("X");
-                for (Term elem : Util.listToTermArray(px)) {
-                    System.out.println(elem);
-                }
+		List<Peca> lista = new ArrayList<>(Bootstrap.getPecaFromTerm(Util.listToTermArray(px)));
+		int j;
+                for (j = 0; j < qtdJogadores; j++) {
+		    maoJogador[j] = new MaoPecas(lista.subList(7*j, 7*(j+1)));
+		}
+		pilha = new PilhaPecas();
+		pilha.popular(lista.subList(7*j, lista.size()));
             }
         }
     }
-    
-    private void adicionarMao(String peca){
-        
-    }
-    
-    private void adicionarPilha(String peca){
-        
-    }
 
+    static List<Peca> getPecaFromTerm(Term[] t) {
+	List<Peca> lista = new ArrayList<>(t.length);
+	for (Term elem: t) {
+	    lista.add(new PecaConcreta(elem));
+	}
+	return lista;
+    }
 }

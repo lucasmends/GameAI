@@ -5,6 +5,11 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+import jpl.Compound;
+import jpl.Term;
+
 /**
  *
  * @author lucas
@@ -20,13 +25,29 @@ public class PecaConcreta implements Peca{
      */
     public PecaConcreta(int lados[]){
         this.lado = new int[2];
-        this.lado[0] = lados[0];
-        this.lado[1] = lados[1];
+	if (lados[0] < lados[1]) {
+	    this.lado[0] = lados[0];
+	    this.lado[1] = lados[1];
+	} else {
+	    this.lado[0] = lados[1];
+	    this.lado[1] = lados[0];
+	}
+    }
+    
+    public PecaConcreta(Term pl) {
+	this.lado = new int[2];
+	lado[0] = pl.arg(0).intValue();
+	lado[1] = pl.arg(1).intValue();
     }
     
     @Override
     public int[] valores() {
         return lado;
+    }
+
+    @Override
+    public Term getTerm() {
+	return new Compound("peca", new Term[]{new jpl.Integer(lado[0]), new jpl.Integer(lado[1])});
     }
     
 }

@@ -5,10 +5,13 @@
  */
 package model;
 
+import jpl.Term;
+
 /**
  *
  * @author lucas
  */
 public interface Peca {
     public int[] valores();
+    public Term getTerm();
 }
