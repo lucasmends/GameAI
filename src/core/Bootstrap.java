@@ -32,7 +32,7 @@ public class Bootstrap {
     }
 
     private void iniciarSWI(int qtdJogadores) {
-        domino = new Query("consult", new Atom("/home/rafaelpaiva/Documentos/Prolog/domino.pl"));
+        domino = new Query("consult", new Atom(getClass().getResource("/Resources/domino.pl").getFile()));
         if (domino.hasSolution()) {
             System.out.println("Lógica carregada.");
 

@@ -14,22 +14,12 @@ import model.Peca;
  *
  * @author lucas
  */
-public class MaoPecas implements Pilha, Mao{
+public class MaoPecas implements Mao{
 
     private List<Peca> mao;
     
     public MaoPecas(){
         mao = new ArrayList<>();
-    }
-       
-    @Override
-    public int qtdRestantes() {
-        return mao.size();
-    }
-
-    @Override
-    public Peca getProxima() {
-        return mao.get(0);
     }
 
     @Override
@@ -38,13 +28,24 @@ public class MaoPecas implements Pilha, Mao{
     }
 
     @Override
-    public Peca getPeca(int i) {
-        try{
-            return mao.remove(i);
-        }catch(IndexOutOfBoundsException e){
-            System.err.println(e.getMessage());
-        }
-        return null;
+    public Peca removePeca(int i) {
+	return mao.remove(i);
+    }
+
+    @Override
+    public Peca removePeca(Peca p) {
+	mao.remove(p);
+	return p;
+    }
+
+    @Override
+    public int qtdMao() {
+	return mao.size();
+    }
+
+    @Override
+    public Peca verPeca(int i) {
+	return mao.get(i);
     }
     
 }

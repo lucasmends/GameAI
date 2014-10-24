@@ -13,6 +13,9 @@ import model.Peca;
  */
 public interface Mao {
     
-    public void addPeca(Peca peca);
-    public Peca getPeca(int i);
+    public Peca removePeca(int i);
+    public Peca removePeca(Peca p);
+    public int qtdMao();
+    public void addPeca(Peca p);
+    public Peca verPeca(int i);
 }
