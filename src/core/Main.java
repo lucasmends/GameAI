@@ -5,8 +5,6 @@
  */
 package core;
 
-import java.util.Hashtable;
-import jpl.*;
 /**
  *
  * @author lucas
@@ -14,6 +12,6 @@ import jpl.*;
 public class Main {
     
     public static void main(String args[]){
-        Bootstrap boot = new Bootstrap(2);
+       new Bootstrap(2);
     }
 }

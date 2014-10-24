@@ -9,8 +9,6 @@ import game.logic.MaoPecas;
 import game.logic.PilhaPecas;
 import game.logic.interfaces.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import jpl.Atom;
@@ -45,7 +43,6 @@ public class Bootstrap {
             Variable X = new Variable("X");
             Query qpecas = new Query("iniciar_pecas", X);
             
-            int pecasAdicionadas = 0;
             while (qpecas.hasMoreSolutions()) {
                 Hashtable binding = qpecas.nextSolution();
                 Term px = (Term) binding.get("X");
