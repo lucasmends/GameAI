@@ -18,7 +18,7 @@ import model.Peca;
  */
 public class JogadorAI implements Jogador{
 
-    private final Mao mao;
+    private final Mao<Peca> mao;
     private final Query ai;      
     private final MediatorGame mediator = Game.getInstance();
     
@@ -46,6 +46,11 @@ public class JogadorAI implements Jogador{
     @Override
     public void fazerJogada() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Mao<Peca> mostrarMao() {
+        return mao;
     }
     
 }

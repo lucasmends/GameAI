@@ -18,4 +18,6 @@ public interface Jogador {
     public Peca colcarTabulero();
     public void fazerJogada();
     
+    public Mao<Peca> mostrarMao();
+    
 }

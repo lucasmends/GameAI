@@ -5,6 +5,7 @@
  */
 package core;
 
+import core.mediator.Game;
 import game.logic.MaoPecas;
 import game.logic.PilhaPecas;
 import game.logic.interfaces.*;
@@ -55,6 +56,8 @@ public class Bootstrap {
 		pilha.popular(lista.subList(7*j, lista.size()));
             }
         }
+        
+        Game.getInstance().setPilha(pilha);
     }
 
     static List<Peca> getPecaFromTerm(Term[] t) {

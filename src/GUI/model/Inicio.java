@@ -6,6 +6,8 @@
 package GUI.model;
 
 import core.Bootstrap;
+import java.io.File;
+import javax.swing.JFrame;
 
 /**
  *
@@ -19,6 +21,15 @@ public class Inicio extends javax.swing.JDialog {
     public Inicio(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        /*addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });*/
+        
+        this.jPanel3.add( new Domino( getClass().getResource("/Resources/domino0-0.png").getFile()) );
     }
 
     /**
@@ -43,7 +54,8 @@ public class Inicio extends javax.swing.JDialog {
         OK = new javax.swing.JButton();
         Sair = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Jogo de dominó");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         Titulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -76,7 +88,7 @@ public class Inicio extends javax.swing.JDialog {
         jPanel2.add(qtdAIs);
 
         qtdAIsBox.setFont(new java.awt.Font("Arial", 0, 15)); // NOI18N
-        qtdAIsBox.setModel(new javax.swing.DefaultComboBoxModel(new Integer[] { 0, 1, 2}));
+        qtdAIsBox.setModel(new javax.swing.DefaultComboBoxModel(new Integer[] { 1, 2}));
         jPanel2.add(qtdAIsBox);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -118,9 +130,9 @@ public class Inicio extends javax.swing.JDialog {
 
     private void qtdJogadoresBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qtdJogadoresBoxActionPerformed
         Integer qtdJogadores = qtdJogadoresBox.getSelectedIndex() + 2;
-        Integer[] model = new Integer[qtdJogadores+1];
-        for(int i = 0; i <= qtdJogadores; i++){
-            model[i] = i;
+        Integer[] model = new Integer[qtdJogadores];
+        for(int i = 0; i < qtdJogadores; i++){
+            model[i] = i + 1;
         }
         
         this.qtdAIsBox.setModel(new javax.swing.DefaultComboBoxModel(model));
