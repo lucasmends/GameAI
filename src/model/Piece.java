@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.logic.interfaces;
+package model;
 
-import java.util.List;
+import jpl.Term;
 
 /**
  *
  * @author lucas
- * @param <T>
  */
-public interface Pilha<T> {
-    public int qtdRestantes();
-    public T getProxima();
-    public void popular(List<T> list);
+public interface Piece {
+    public int[] values();
+    public Term getTerm();
 }

@@ -10,55 +10,55 @@ import java.util.ArrayList;
 import java.util.List;
 import jpl.Term;
 import jpl.Util;
-import model.Peca;
+import model.Piece;
 
 /**
  *
  * @author lucas
  */
-public class MaoPecas implements Mao<Peca>{
+public class HandPieces implements Hand<Piece>{
 
-    private List<Peca> mao;
+    private List<Piece> mao;
     
-    public MaoPecas(){
+    public HandPieces(){
         mao = new ArrayList<>();
     }
     
-    public MaoPecas(List<Peca> lista) {
+    public HandPieces(List<Piece> lista) {
 	mao = new ArrayList<>(lista);
     }
 
     @Override
-    public void addPeca(Peca peca) {
+    public void add(Piece peca) {
         mao.add(peca);
     }
 
     @Override
-    public Peca removePeca(int i) {
+    public Piece remove(int i) {
 	return mao.remove(i);
     }
 
     @Override
-    public Peca removePeca(Peca p) {
+    public Piece remove(Piece p) {
 	mao.remove(p);
 	return p;
     }
 
     @Override
-    public int qtdMao() {
+    public int qtdHand() {
 	return mao.size();
     }
 
     @Override
-    public Peca verPeca(int i) {
+    public Piece show(int i) {
 	return mao.get(i);
     }
 
     @Override
     public Term getTerm() {
-	Term[] lista = new Term[qtdMao()];
+	Term[] lista = new Term[qtdHand()];
 	for (int i = 0; i < lista.length; i++) {
-	    lista[i] = verPeca(i).getTerm();
+	    lista[i] = show(i).getTerm();
 	}
 	return Util.termArrayToList(lista);
     }

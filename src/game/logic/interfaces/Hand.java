@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package game.logic.interfaces;
 
 import jpl.Term;
 
@@ -11,7 +11,13 @@ import jpl.Term;
  *
  * @author lucas
  */
-public interface Peca {
-    public int[] valores();
+public interface Hand<T> {
+    
+    public T remove(int i);
+    public T remove(T p);
+    public int qtdHand();
+    public void add(T p);
+    public T show(int i);
+    
     public Term getTerm();
 }

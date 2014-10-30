@@ -5,7 +5,7 @@
  */
 package GUI.model;
 
-import GUI.MaoJogador;
+import GUI.HandPlayer;
 
 
 
@@ -38,7 +38,7 @@ public class Testet extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         Domino teste = new Domino( getClass().getResource("/Resources/r-domino0-1.png").getFile());
         teste.rotate(0);
-        add( new MaoJogador(null) );
+        add(new HandPlayer(null) );
         
         pack();
         

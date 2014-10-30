@@ -13,12 +13,12 @@ import javax.swing.JFrame;
  *
  * @author lucas
  */
-public class Inicio extends javax.swing.JDialog {
+public class InitScreen extends javax.swing.JDialog {
 
     /**
      * Creates new form Inicio
      */
-    public Inicio(java.awt.Frame parent, boolean modal) {
+    public InitScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         

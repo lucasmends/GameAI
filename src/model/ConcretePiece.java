@@ -5,8 +5,6 @@
  */
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
 import jpl.Compound;
 import jpl.Term;
 
@@ -14,7 +12,7 @@ import jpl.Term;
  *
  * @author lucas
  */
-public class PecaConcreta implements Peca{
+public class ConcretePiece implements Piece{
 
     private int lado[];
     
@@ -23,7 +21,7 @@ public class PecaConcreta implements Peca{
      * 
      * @param lados Vetor de tamanho 2 que contém as pontas da peca
      */
-    public PecaConcreta(int lados[]){
+    public ConcretePiece(int lados[]){
         this.lado = new int[2];
 	if (lados[0] < lados[1]) {
 	    this.lado[0] = lados[0];
@@ -34,14 +32,14 @@ public class PecaConcreta implements Peca{
 	}
     }
     
-    public PecaConcreta(Term pl) {
+    public ConcretePiece(Term pl) {
 	this.lado = new int[2];
 	lado[0] = pl.arg(0).intValue();
 	lado[1] = pl.arg(1).intValue();
     }
     
     @Override
-    public int[] valores() {
+    public int[] values() {
         return lado;
     }
 

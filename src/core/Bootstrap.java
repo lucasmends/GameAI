@@ -6,8 +6,8 @@
 package core;
 
 import core.mediator.Game;
-import game.logic.MaoPecas;
-import game.logic.PilhaPecas;
+import game.logic.HandPieces;
+import game.logic.PiecesStack;
 import game.logic.interfaces.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -17,8 +17,8 @@ import jpl.Query;
 import jpl.Term;
 import jpl.Util;
 import jpl.Variable;
-import model.Peca;
-import model.PecaConcreta;
+import model.Piece;
+import model.ConcretePiece;
 
 /**
  *
@@ -26,17 +26,17 @@ import model.PecaConcreta;
  */
 public class Bootstrap {
 
-    private Mao maoJogador[];
-    private PilhaPecas pilha;
+    private Hand handPlayer[];
+    private PiecesStack stack;
     private Query domino;
 
     public Bootstrap(int qtdJogadores) {
-        maoJogador = new MaoPecas[qtdJogadores];
-        pilha = new PilhaPecas();
-        iniciarSWI(qtdJogadores);
+        handPlayer = new HandPieces[qtdJogadores];
+        stack = new PiecesStack();
+        initSWI(qtdJogadores);
     }
 
-    private void iniciarSWI(int qtdJogadores) {
+    private void initSWI(int qtdJogadores) {
         domino = new Query("consult", new Atom(getClass().getResource("/Resources/domino.pl").getFile()));
         if (domino.hasSolution()) {
             System.out.println("Lógica carregada.");
@@ -47,23 +47,23 @@ public class Bootstrap {
             while (qpecas.hasMoreSolutions()) {
                 Hashtable binding = qpecas.nextSolution();
                 Term px = (Term) binding.get("X");
-		List<Peca> lista = new ArrayList<>(Bootstrap.getPecaFromTerm(Util.listToTermArray(px)));
+		List<Piece> lista = new ArrayList<>(Bootstrap.getPieceFromTerm(Util.listToTermArray(px)));
 		int j;
                 for (j = 0; j < qtdJogadores; j++) {
-		    maoJogador[j] = new MaoPecas(lista.subList(7*j, 7*(j+1)));
+		    handPlayer[j] = new HandPieces(lista.subList(7*j, 7*(j+1)));
 		}
-		pilha = new PilhaPecas();
-		pilha.popular(lista.subList(7*j, lista.size()));
+		stack = new PiecesStack();
+		stack.populate(lista.subList(7*j, lista.size()));
             }
         }
         
-        Game.getInstance().setPilha(pilha);
+        Game.getInstance().setStack(stack);
     }
 
-    static List<Peca> getPecaFromTerm(Term[] t) {
-	List<Peca> lista = new ArrayList<>(t.length);
+    static List<Piece> getPieceFromTerm(Term[] t) {
+	List<Piece> lista = new ArrayList<>(t.length);
 	for (Term elem: t) {
-	    lista.add(new PecaConcreta(elem));
+	    lista.add(new ConcretePiece(elem));
 	}
 	return lista;
     }

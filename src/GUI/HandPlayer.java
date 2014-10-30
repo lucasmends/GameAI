@@ -3,11 +3,11 @@ package GUI;
 import GUI.model.Domino;
 import core.mediator.Game;
 import core.mediator.MediatorGame;
-import game.logic.interfaces.Jogador;
-import game.logic.interfaces.Mao;
+import game.logic.interfaces.Player;
+import game.logic.interfaces.Hand;
 import java.util.ArrayList;
 import java.util.List;
-import model.Peca;
+import model.Piece;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,34 +18,34 @@ import model.Peca;
  *
  * @author lucas
  */
-public class MaoJogador extends javax.swing.JPanel implements Jogador {
+public class HandPlayer extends javax.swing.JPanel implements Player {
 
     /**
-     * Creates new form MaoJogador
+     * Creates new form HandPlayer
      */
-    private Mao<Peca> mao;
+    private Hand<Piece> hand;
     private List<Domino> dominos;
     private MediatorGame mediator = Game.getInstance();
 
-    public MaoJogador(Mao<Peca> mao) {
+    public HandPlayer(Hand<Piece> mao) {
         initComponents();
 
-        this.mao = mao;
-        pecaToDomino();
+        this.hand = mao;
+        pieceToDomino();
 
         for (Domino domino : dominos) {
             add(domino);
         }
     }
 
-    private void pecaToDomino() {
+    private void pieceToDomino() {
         dominos = new ArrayList<>();
         dominos.add(new Domino(getClass().getResource("/Resources/r-domino0-1.png").getFile()));
         dominos.add(new Domino(getClass().getResource("/Resources/r-domino0-2.png").getFile()));
         dominos.add(new Domino(getClass().getResource("/Resources/r-domino0-3.png").getFile()));
     }
 
-    private void addDomino(Peca peca) {
+    private void addDomino(Piece piece) {
 
     }
 
@@ -63,24 +63,24 @@ public class MaoJogador extends javax.swing.JPanel implements Jogador {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
     @Override
-    public void pegarPilha() {
-        Peca peca = mediator.pegarPilha();
-        mao.addPeca(peca);
-        addDomino(peca);
+    public void takeFromStack() {
+        Piece piece = mediator.takeStack();
+        hand.add(piece);
+        addDomino(piece);
     }
 
     @Override
-    public Peca colcarTabulero() {
+    public Piece putOnBoard() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void fazerJogada() {
+    public void doMove() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Mao<Peca> mostrarMao() {
-        return mao;
+    public Hand<Piece> showHand() {
+        return hand;
     }
 }

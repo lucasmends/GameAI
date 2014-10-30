@@ -5,10 +5,10 @@
  */
 package core.mediator;
 
-import game.logic.interfaces.Jogador;
-import game.logic.interfaces.Pilha;
+import game.logic.interfaces.Player;
+import game.logic.interfaces.Stack;
 import java.util.List;
-import model.Peca;
+import model.Piece;
 
 /**
  *
@@ -17,12 +17,12 @@ import model.Peca;
 public class Game implements MediatorGame{
     
     private final static Game instance = new Game();
-    private Pilha pilha;
-    private List<Jogador> jogadores;
+    private Stack stack;
+    private List<Player> players;
     
     
     private Game(){
-        pilha = null;
+        stack = null;
     }
     
     public static Game getInstance(){
@@ -30,21 +30,21 @@ public class Game implements MediatorGame{
     }
     
     @Override
-    public void setPilha(Pilha pilha){
-        this.pilha = pilha;
+    public void setStack(Stack stack){
+        this.stack = stack;
     }
     
     @Override
-    public void addJogador(Jogador jogador){
-        if(this.jogadores.size() < 4){
-            this.jogadores.add(jogador);
+    public void addPlayer(Player player){
+        if(this.players.size() < 4){
+            this.players.add(player);
         }
     }
 
     @Override
-    public Peca pegarPilha() {
-        if(pilha.qtdRestantes() > 0){
-            return (Peca) pilha.getProxima();
+    public Piece takeStack() {
+        if(stack.qtdRemaining() > 0){
+            return (Piece) stack.getNext();
         }
         return null;
     }

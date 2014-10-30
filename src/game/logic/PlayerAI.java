@@ -7,22 +7,22 @@ package game.logic;
 
 import core.mediator.Game;
 import core.mediator.MediatorGame;
-import game.logic.interfaces.Jogador;
-import game.logic.interfaces.Mao;
+import game.logic.interfaces.Player;
+import game.logic.interfaces.Hand;
 import jpl.Query;
-import model.Peca;
+import model.Piece;
 
 /**
  *
  * @author lucas
  */
-public class JogadorAI implements Jogador{
+public class PlayerAI implements Player{
 
-    private final Mao<Peca> mao;
+    private final Hand<Piece> mao;
     private final Query ai;      
     private final MediatorGame mediator = Game.getInstance();
     
-    public JogadorAI(Mao mao, Query ai){
+    public PlayerAI(Hand mao, Query ai){
         this.mao = mao;
         this.ai = ai;
     }
@@ -31,25 +31,25 @@ public class JogadorAI implements Jogador{
     
     
     @Override
-    public void pegarPilha() {
-        Peca pecaPilha = mediator.pegarPilha();
+    public void takeFromStack() {
+        Piece pecaPilha = mediator.takeStack();
         if(pecaPilha != null)
             //Colocar a logica em prolog para a pilha
             ;
     }
 
     @Override
-    public Peca colcarTabulero() {
+    public Piece putOnBoard() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void fazerJogada() {
+    public void doMove() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Mao<Peca> mostrarMao() {
+    public Hand<Piece> showHand() {
         return mao;
     }
     

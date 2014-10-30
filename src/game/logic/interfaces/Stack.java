@@ -5,19 +5,15 @@
  */
 package game.logic.interfaces;
 
-import jpl.Term;
+import java.util.List;
 
 /**
  *
  * @author lucas
+ * @param <T>
  */
-public interface Mao<T> {
-    
-    public T removePeca(int i);
-    public T removePeca(T p);
-    public int qtdMao();
-    public void addPeca(T p);
-    public T verPeca(int i);
-    
-    public Term getTerm();
+public interface Stack<T> {
+    public int qtdRemaining();
+    public T getNext();
+    public void populate(List<T> list);
 }

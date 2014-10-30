@@ -5,40 +5,40 @@
  */
 package game.logic;
 
-import game.logic.interfaces.Pilha;
+import game.logic.interfaces.Stack;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.SynchronousQueue;
-import model.Peca;
+import model.Piece;
 
 /**
  *
  * @author lucas
  */
-public class PilhaPecas implements Pilha<Peca>{
+public class PiecesStack implements Stack<Piece>{
 
-    private final Queue<Peca> pilha;
+    private final Queue<Piece> pilha;
     
-    public PilhaPecas(){
+    public PiecesStack(){
         pilha = new SynchronousQueue<>();
     }
     
     @Override
-    public void popular(List<Peca> list) {
+    public void populate(List<Piece> list) {
 	pilha.addAll(list);
     }
     
-    public void addPeca(Peca peca){
+    public void addPeca(Piece peca){
         pilha.add(peca);
     }
     
     @Override
-    public int qtdRestantes() {
+    public int qtdRemaining() {
         return pilha.size();
     }
 
     @Override
-    public Peca getProxima() {
+    public Piece getNext() {
         return pilha.remove();
     }
     

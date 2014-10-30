@@ -11,7 +11,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import model.Peca;
+import model.Piece;
 
 /**
  *
@@ -19,25 +19,25 @@ import model.Peca;
  */
 public final class Domino extends JPanel {
 
-    private Image imagem;
-    private Peca peca;
+    private Image image;
+    private Piece pice;
 
     public Domino(String file) {
-        imagem = new ImageIcon(file).getImage();
+        image = new ImageIcon(file).getImage();
         setSize();
     }
 
     private void setSize() {
         Dimension d = new Dimension();
-        d.width = imagem.getWidth(null);
-        d.height = imagem.getHeight(null);
+        d.width = image.getWidth(null);
+        d.height = image.getHeight(null);
         setPreferredSize(d);
     }
 
     private void doDrawing(Graphics g) {
 
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(imagem, 1, 1, null);
+        g2d.drawImage(image, 1, 1, null);
         
     }
 
@@ -49,7 +49,7 @@ public final class Domino extends JPanel {
     }
     
     public void rotate(double graus){
-        imagem = Utils.ImageTool.rotate(imagem, graus);
+        image = Utils.ImageTool.rotate(image, graus);
         setSize();
         repaint();
     }

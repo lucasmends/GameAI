@@ -5,19 +5,19 @@
  */
 package game.logic.interfaces;
 
-import model.Peca;
+import model.Piece;
 
 /**
  *
  * @author lucas
  */
-public interface Jogador {
+public interface Player {
 
     
-    public void pegarPilha();
-    public Peca colcarTabulero();
-    public void fazerJogada();
+    public void takeFromStack();
+    public Piece putOnBoard();
+    public void doMove();
     
-    public Mao<Peca> mostrarMao();
+    public Hand<Piece> showHand();
     
 }

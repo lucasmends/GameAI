@@ -5,9 +5,9 @@
  */
 package core.mediator;
 
-import game.logic.interfaces.Jogador;
-import game.logic.interfaces.Pilha;
-import model.Peca;
+import game.logic.interfaces.Player;
+import game.logic.interfaces.Stack;
+import model.Piece;
 
 /**
  *
@@ -16,7 +16,7 @@ import model.Peca;
 public interface MediatorGame {
  
     
-    public void addJogador(Jogador jogador);
-    public void setPilha(Pilha pilha);
-    public Peca pegarPilha();
+    public void addPlayer(Player player);
+    public void setStack(Stack stack);
+    public Piece takeStack();
 }

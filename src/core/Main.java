@@ -5,7 +5,7 @@
  */
 package core;
 
-import GUI.model.Inicio;
+import GUI.model.InitScreen;
 
 /**
  *
@@ -14,6 +14,6 @@ import GUI.model.Inicio;
 public class Main {
     
     public static void main(String args[]){
-       new Inicio(new javax.swing.JFrame(), true).setVisible(true);
+       new InitScreen(new javax.swing.JFrame(), true).setVisible(true);
     }
 }
