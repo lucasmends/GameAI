@@ -36,8 +36,8 @@ public class Testet extends javax.swing.JFrame {
         setTitle("Teste");
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        Domino teste = new Domino( getClass().getResource("/Resources/r-domino0-1.png").getFile());
-        teste.rotate(0);
+        //Domino teste = new Domino( getClass().getResource("/Resources/r-domino0-1.png").getFile());
+        //teste.rotate(0);
         add(new HandPlayer(null) );
         
         pack();

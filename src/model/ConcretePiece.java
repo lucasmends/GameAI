@@ -47,5 +47,11 @@ public class ConcretePiece implements Piece{
     public Term getTerm() {
 	return new Compound("peca", new Term[]{new jpl.Integer(lado[0]), new jpl.Integer(lado[1])});
     }
+
+    @Override
+    public String getFileName() {
+        return new StringBuilder("r-domino").
+                append(lado[0]).append("-").append(lado[1]).append(".png").toString();
+    }
     
 }

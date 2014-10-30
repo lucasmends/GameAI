@@ -20,9 +20,10 @@ import model.Piece;
 public final class Domino extends JPanel {
 
     private Image image;
-    private Piece pice;
+    private final Piece piece;
 
-    public Domino(String file) {
+    public Domino(String file, Piece piece) {
+        this.piece = piece;
         image = new ImageIcon(file).getImage();
         setSize();
     }

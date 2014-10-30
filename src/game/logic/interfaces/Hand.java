@@ -11,7 +11,7 @@ import jpl.Term;
  *
  * @author lucas
  */
-public interface Hand<T> {
+public interface Hand<T>{
     
     public T remove(int i);
     public T remove(T p);

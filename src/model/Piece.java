@@ -14,4 +14,5 @@ import jpl.Term;
 public interface Piece {
     public int[] values();
     public Term getTerm();
+    public String getFileName();
 }

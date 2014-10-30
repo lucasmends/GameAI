@@ -1,12 +1,9 @@
 package GUI;
 
 import GUI.model.Domino;
-import core.mediator.Game;
-import core.mediator.MediatorGame;
 import game.logic.interfaces.Player;
 import game.logic.interfaces.Hand;
 import java.util.ArrayList;
-import java.util.List;
 import model.Piece;
 
 /*
@@ -18,34 +15,23 @@ import model.Piece;
  *
  * @author lucas
  */
-public class HandPlayer extends javax.swing.JPanel implements Player {
+public class HandPlayer extends GUI.model.Hand implements Player {
 
     /**
      * Creates new form HandPlayer
      */
-    private Hand<Piece> hand;
-    private List<Domino> dominos;
-    private MediatorGame mediator = Game.getInstance();
+    public HandPlayer(Hand<Piece> hand) {
+        super(hand);
 
-    public HandPlayer(Hand<Piece> mao) {
-        initComponents();
-
-        this.hand = mao;
-        pieceToDomino();
+        pieceToDomino(false);
 
         for (Domino domino : dominos) {
             add(domino);
         }
     }
 
-    private void pieceToDomino() {
-        dominos = new ArrayList<>();
-        dominos.add(new Domino(getClass().getResource("/Resources/r-domino0-1.png").getFile()));
-        dominos.add(new Domino(getClass().getResource("/Resources/r-domino0-2.png").getFile()));
-        dominos.add(new Domino(getClass().getResource("/Resources/r-domino0-3.png").getFile()));
-    }
-
-    private void addDomino(Piece piece) {
+    @Override
+    public void addDomino(Piece piece) {
 
     }
 
