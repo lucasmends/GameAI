@@ -11,7 +11,6 @@ import java.util.List;
 import jpl.Term;
 import jpl.Util;
 import model.Peca;
-import model.PecaConcreta;
 
 /**
  *
