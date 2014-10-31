@@ -5,7 +5,7 @@
  */
 package GUI.model;
 
-import GUI.HandPlayer;
+import GUI.Hand.HandPlayer;
 
 
 

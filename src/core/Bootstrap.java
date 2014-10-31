@@ -5,9 +5,13 @@
  */
 package core;
 
+import GUI.Board;
+import GUI.Hand.HandPlayer;
+import GUI.model.HandGUI;
 import core.mediator.Game;
 import game.logic.HandPieces;
 import game.logic.PiecesStack;
+import game.logic.PlayerAI;
 import game.logic.interfaces.*;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -26,14 +30,15 @@ import model.ConcretePiece;
  */
 public class Bootstrap {
 
-    private Hand handPlayer[];
+    private final Hand handPlayer[];
     private PiecesStack stack;
     private Query domino;
 
-    public Bootstrap(int qtdJogadores) {
-        handPlayer = new HandPieces[qtdJogadores];
+    public Bootstrap(int qtdPlayers, int qtdAI) {
+        handPlayer = new HandPieces[qtdPlayers];
         stack = new PiecesStack();
-        initSWI(qtdJogadores);
+        initSWI(qtdPlayers);
+        initBoard(qtdPlayers, qtdAI).setVisible(true);
     }
 
     private void initSWI(int qtdJogadores) {
@@ -59,7 +64,7 @@ public class Bootstrap {
         
         Game.getInstance().setStack(stack);
     }
-
+    
     static List<Piece> getPieceFromTerm(Term[] t) {
 	List<Piece> lista = new ArrayList<>(t.length);
 	for (Term elem: t) {
@@ -67,4 +72,28 @@ public class Bootstrap {
 	}
 	return lista;
     }
+
+    private Board initBoard(int qtdPlayers, int qtdAI){
+        Board boardGame = new Board();
+        List<HandGUI> AIsGUIs = new ArrayList<>(qtdAI);
+        
+        if(qtdPlayers - qtdAI > 0){
+            Player human = new HandPlayer(handPlayer[0]);
+            boardGame.addHumanPlayer((HandGUI) human);
+            Game.getInstance().addPlayer(human);
+        }
+        boolean upDirection = false;
+        for(int i = (qtdPlayers - qtdAI); i < qtdPlayers; i++){
+            PlayerAI AI = new PlayerAI(handPlayer[i], null, upDirection);  
+            AIsGUIs.add(AI.getHand());
+            Game.getInstance().addPlayer(AI);
+            
+            upDirection = true;
+        }
+        
+        boardGame.addAIPlayer(AIsGUIs);
+        
+        return boardGame;
+    }
+    
 }

@@ -5,6 +5,7 @@
  */
 package game.logic;
 
+import GUI.model.HandGUI;
 import core.mediator.Game;
 import core.mediator.MediatorGame;
 import game.logic.interfaces.Player;
@@ -21,14 +22,18 @@ public class PlayerAI implements Player{
     private final Hand<Piece> mao;
     private final Query ai;      
     private final MediatorGame mediator = Game.getInstance();
+    private final HandGUI handGUI;
     
-    public PlayerAI(Hand mao, Query ai){
-        this.mao = mao;
+    public PlayerAI(Hand hand, Query ai, boolean upDirection){
+        this.mao = hand;
         this.ai = ai;
+        this.handGUI = new GUI.Hand.HandPlayerAI(mao, 0, upDirection);
     }
     
     
-    
+    public HandGUI getHand(){
+        return this.handGUI;
+    }
     
     @Override
     public void takeFromStack() {

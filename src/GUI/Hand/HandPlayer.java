@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Hand;
 
 import GUI.model.Domino;
 import game.logic.interfaces.Player;
@@ -15,7 +15,7 @@ import model.Piece;
  *
  * @author lucas
  */
-public class HandPlayer extends GUI.model.Hand implements Player {
+public class HandPlayer extends GUI.model.HandGUI implements Player {
 
     /**
      * Creates new form HandPlayer

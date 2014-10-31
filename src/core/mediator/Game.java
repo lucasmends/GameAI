@@ -7,6 +7,7 @@ package core.mediator;
 
 import game.logic.interfaces.Player;
 import game.logic.interfaces.Stack;
+import java.util.ArrayList;
 import java.util.List;
 import model.Piece;
 
@@ -18,10 +19,11 @@ public class Game implements MediatorGame{
     
     private final static Game instance = new Game();
     private Stack stack;
-    private List<Player> players;
+    private final List<Player> players;
     
     
     private Game(){
+        players = new ArrayList<>();
         stack = null;
     }
     

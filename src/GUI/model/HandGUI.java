@@ -16,14 +16,14 @@ import model.Piece;
  *
  * @author lucas
  */
-public abstract class Hand extends JPanel {
+public abstract class HandGUI extends JPanel {
 
     protected final game.logic.interfaces.Hand<Piece> hand;
     protected List<Domino> dominos;
     protected final MediatorGame mediator = Game.getInstance();
 
     
-    public Hand(game.logic.interfaces.Hand<Piece> hand){
+    public HandGUI(game.logic.interfaces.Hand<Piece> hand){
         this.hand = hand;
         dominos = new ArrayList<>(7);
     }

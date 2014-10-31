@@ -34,8 +34,9 @@ public class ConcretePiece implements Piece{
     
     public ConcretePiece(Term pl) {
 	this.lado = new int[2];
-	lado[0] = pl.arg(0).intValue();
-	lado[1] = pl.arg(1).intValue();
+        
+ 	lado[0] = pl.args()[0].intValue();
+	lado[1] = pl.args()[1].intValue();
     }
     
     @Override

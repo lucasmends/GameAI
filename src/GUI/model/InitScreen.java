@@ -54,7 +54,7 @@ public class InitScreen extends javax.swing.JDialog {
         OK = new javax.swing.JButton();
         Sair = new javax.swing.JButton();
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Jogo de dominó");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
@@ -130,16 +130,15 @@ public class InitScreen extends javax.swing.JDialog {
 
     private void qtdJogadoresBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qtdJogadoresBoxActionPerformed
         Integer qtdJogadores = qtdJogadoresBox.getSelectedIndex() + 2;
-        Integer[] model = new Integer[qtdJogadores];
-        for(int i = 0; i < qtdJogadores; i++){
-            model[i] = i + 1;
-        }
+        Integer[] model = new Integer[2];
+        model[0] = qtdJogadores - 1;
+        model[1] = qtdJogadores;
         
         this.qtdAIsBox.setModel(new javax.swing.DefaultComboBoxModel(model));
     }//GEN-LAST:event_qtdJogadoresBoxActionPerformed
 
     private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
-        Bootstrap bootstrap = new Bootstrap(this.qtdJogadoresBox.getSelectedIndex() + 1);
+        new Bootstrap((Integer) this.qtdJogadoresBox.getSelectedItem(), (Integer) this.qtdAIsBox.getSelectedItem() );
         
         this.dispose();
     }//GEN-LAST:event_OKActionPerformed

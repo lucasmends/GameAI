@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package GUI.Hand;
 
 import GUI.model.Domino;
 import game.logic.interfaces.Hand;;
@@ -13,16 +13,19 @@ import model.Piece;
  *
  * @author lucas
  */
-public class HandPlayerAI extends GUI.model.Hand{
+public class HandPlayerAI extends GUI.model.HandGUI{
     
     private final double angleOrientation;
     
     
-    public HandPlayerAI(Hand<Piece> hand, double angleOrientation){
+    public HandPlayerAI(Hand<Piece> hand, double angleOrientation, boolean upDirection){
         super(hand);
         this.angleOrientation = angleOrientation;
         
         pieceToDomino(true);
+        
+        if(upDirection)
+            setLayout(new java.awt.GridLayout(0, 2));
         
         for(Domino domino: dominos){
             setOrientation(domino);

@@ -6,9 +6,9 @@
 package game.logic;
 
 import game.logic.interfaces.Stack;
+import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.SynchronousQueue;
 import model.Piece;
 
 /**
@@ -20,12 +20,12 @@ public class PiecesStack implements Stack<Piece>{
     private final Queue<Piece> pilha;
     
     public PiecesStack(){
-        pilha = new SynchronousQueue<>();
+        pilha = new ArrayDeque<>();
     }
     
     @Override
     public void populate(List<Piece> list) {
-	pilha.addAll(list);
+        pilha.addAll(list);
     }
     
     public void addPeca(Piece peca){
