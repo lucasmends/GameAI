@@ -20,4 +20,5 @@ public interface Hand<T>{
     public T show(int i);
     
     public Term getTerm();
+
 }

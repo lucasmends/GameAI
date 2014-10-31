@@ -19,15 +19,22 @@ import model.Piece;
  */
 public class PlayerAI implements Player{
 
-    private final Hand<Piece> mao;
+    private final Hand<Piece> hand;
     private final Query ai;      
     private final MediatorGame mediator = Game.getInstance();
     private final HandGUI handGUI;
+    private int point;
     
     public PlayerAI(Hand hand, Query ai, boolean upDirection){
-        this.mao = hand;
+        this.hand = hand;
         this.ai = ai;
-        this.handGUI = new GUI.Hand.HandPlayerAI(mao, 0, upDirection);
+        this.handGUI = new GUI.Hand.HandPlayerAI(hand, 0, upDirection);
+        this.point = 0;
+        for(int i = 0; i < hand.qtdHand(); i++)
+        {
+            Piece piece = (Piece) hand.show(i);
+            this.point += piece.getPoint();
+        }
     }
     
     
@@ -38,9 +45,14 @@ public class PlayerAI implements Player{
     @Override
     public void takeFromStack() {
         Piece pecaPilha = mediator.takeStack();
-        if(pecaPilha != null)
+        if(pecaPilha != null){
             //Colocar a logica em prolog para a pilha
             ;
+            this.point += pecaPilha.getPoint();
+            hand.add(pecaPilha);
+            handGUI.addDomino(pecaPilha);
+        }
+        
     }
 
     @Override
@@ -55,7 +67,12 @@ public class PlayerAI implements Player{
 
     @Override
     public Hand<Piece> showHand() {
-        return mao;
+        return hand;
+    }
+
+    @Override
+    public int getPoint() {
+        return this.point;
     }
     
 }

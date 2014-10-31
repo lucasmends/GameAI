@@ -22,26 +22,34 @@ public abstract class HandGUI extends JPanel {
     protected List<Domino> dominos;
     protected final MediatorGame mediator = Game.getInstance();
 
-    
-    public HandGUI(game.logic.interfaces.Hand<Piece> hand){
+    public HandGUI(game.logic.interfaces.Hand<Piece> hand) {
         this.hand = hand;
         dominos = new ArrayList<>(7);
     }
-    
-    protected void pieceToDomino(boolean back) {
+
+    protected void piecesToDomino(boolean back) {
         if (back == false) {
-            for(int i = 0; i < hand.qtdHand(); i++){
+            for (int i = 0; i < hand.qtdHand(); i++) {
                 Piece piece = hand.show(i);
                 String file = new StringBuilder("/Resources/").append(piece.getFileName()).toString();
-                dominos.add(new Domino( getClass().getResource(file).getFile() , piece));
+                dominos.add(new Domino(getClass().getResource(file).getFile(), piece));
             }
-        } else{
-            for(int i = 0; i < hand.qtdHand(); i++){
+        } else {
+            for (int i = 0; i < hand.qtdHand(); i++) {
                 Piece piece = hand.show(i);
                 dominos.add(new Domino(getClass().getResource("/Resources/r-back.png").getFile(), piece));
             }
         }
 
+    }
+
+    protected Domino piecesToDomino(Piece piece, boolean back) {
+        if (back == false) {
+            String file = new StringBuilder("/Resources/").append(piece.getFileName()).toString();
+            return new Domino(getClass().getResource(file).getFile(), piece);
+        } else{
+            return new Domino(getClass().getResource("/Resources/r-back.png").getFile(), piece);
+        }
     }
 
     public abstract void addDomino(Piece piece);

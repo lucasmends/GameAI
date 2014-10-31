@@ -3,7 +3,6 @@ package GUI.Hand;
 import GUI.model.Domino;
 import game.logic.interfaces.Player;
 import game.logic.interfaces.Hand;
-import java.util.ArrayList;
 import model.Piece;
 
 /*
@@ -17,22 +16,30 @@ import model.Piece;
  */
 public class HandPlayer extends GUI.model.HandGUI implements Player {
 
-    /**
-     * Creates new form HandPlayer
-     */
+    private int point;
+
     public HandPlayer(Hand<Piece> hand) {
         super(hand);
 
-        pieceToDomino(false);
+        piecesToDomino(false);
 
         for (Domino domino : dominos) {
             add(domino);
+        }
+
+        this.point = 0;
+        for (int i = 0; i < hand.qtdHand(); i++) {
+            Piece piece = (Piece) hand.show(i);
+            this.point += piece.getPoint();
         }
     }
 
     @Override
     public void addDomino(Piece piece) {
-
+        this.hand.add(piece);
+        Domino domino = piecesToDomino(piece, false);
+        this.dominos.add(domino);
+        add(domino);
     }
 
     /**
@@ -51,7 +58,7 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     @Override
     public void takeFromStack() {
         Piece piece = mediator.takeStack();
-        hand.add(piece);
+        this.point += piece.getPoint();
         addDomino(piece);
     }
 
@@ -68,5 +75,10 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     @Override
     public Hand<Piece> showHand() {
         return hand;
+    }
+
+    @Override
+    public int getPoint() {
+        return this.point;
     }
 }

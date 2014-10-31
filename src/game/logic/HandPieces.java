@@ -18,40 +18,40 @@ import model.Piece;
  */
 public class HandPieces implements Hand<Piece>{
 
-    private List<Piece> mao;
+    private List<Piece> hand;
     
     public HandPieces(){
-        mao = new ArrayList<>();
+        hand = new ArrayList<>();
     }
     
     public HandPieces(List<Piece> lista) {
-	mao = new ArrayList<>(lista);
+	hand = new ArrayList<>(lista);
     }
 
     @Override
     public void add(Piece peca) {
-        mao.add(peca);
+        hand.add(peca);
     }
 
     @Override
     public Piece remove(int i) {
-	return mao.remove(i);
+	return hand.remove(i);
     }
 
     @Override
     public Piece remove(Piece p) {
-	mao.remove(p);
+	hand.remove(p);
 	return p;
     }
 
     @Override
     public int qtdHand() {
-	return mao.size();
+	return hand.size();
     }
 
     @Override
     public Piece show(int i) {
-	return mao.get(i);
+	return hand.get(i);
     }
 
     @Override
@@ -62,5 +62,6 @@ public class HandPieces implements Hand<Piece>{
 	}
 	return Util.termArrayToList(lista);
     }
+
     
 }

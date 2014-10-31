@@ -17,6 +17,7 @@ public interface Player {
     public void takeFromStack();
     public Piece putOnBoard();
     public void doMove();
+    public int getPoint();
     
     public Hand<Piece> showHand();
     

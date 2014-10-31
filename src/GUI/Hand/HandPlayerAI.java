@@ -22,7 +22,7 @@ public class HandPlayerAI extends GUI.model.HandGUI{
         super(hand);
         this.angleOrientation = angleOrientation;
         
-        pieceToDomino(true);
+        piecesToDomino(true);
         
         if(upDirection)
             setLayout(new java.awt.GridLayout(0, 2));
@@ -39,6 +39,11 @@ public class HandPlayerAI extends GUI.model.HandGUI{
     
     @Override
     public void addDomino(Piece piece) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.hand.add(piece);
+        Domino domino = piecesToDomino(piece, true);
+        this.dominos.add(domino);
+        setOrientation(domino);
+        add(domino);
+        
     }
 }
