@@ -1,6 +1,7 @@
 package GUI.Hand;
 
 import GUI.model.Domino;
+import core.RoundLogic;
 import game.logic.interfaces.Player;
 import game.logic.interfaces.Hand;
 import model.Piece;
@@ -24,9 +25,10 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
         piecesToDomino(false);
 
         for (Domino domino : dominos) {
+            domino.setPlayer(this);
             add(domino);
         }
-
+        
         this.point = 0;
         for (int i = 0; i < hand.qtdHand(); i++) {
             Piece piece = (Piece) hand.show(i);
@@ -67,9 +69,22 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void putOnBoard(Domino domino){
+        
+        mediator.informPiecePlaced(domino.getPiece(), this);
+        
+        removeFromHand(domino);
+        
+        hand.remove(domino.getPiece());
+        this.point -= domino.getPiece().getPoint();
+        
+        setActive(false);
+        RoundLogic.getInstance().nextPlayerTurn();
+    }
+    
     @Override
-    public void doMove() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void doMove() {      
+        setActive(true);
     }
 
     @Override
@@ -80,5 +95,20 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     @Override
     public int getPoint() {
         return this.point;
+    }
+
+    @Override
+    public int remaining() {
+        return showHand().qtdHand();
+    }
+    
+    private void setActive(boolean state){
+        for(Domino domino: dominos)
+            domino.setActive(state);
+    }
+
+    @Override
+    public void piecePlaced(Piece piece) {
+        ;
     }
 }

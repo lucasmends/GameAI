@@ -5,6 +5,7 @@
  */
 package GUI.model;
 
+import core.RoundLogic;
 import core.mediator.Game;
 import core.mediator.MediatorGame;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ import model.Piece;
  */
 public abstract class HandGUI extends JPanel {
 
-    protected final game.logic.interfaces.Hand<Piece> hand;
-    protected List<Domino> dominos;
+    protected game.logic.interfaces.Hand<Piece> hand;
+    protected final List<Domino> dominos;
     protected final MediatorGame mediator = Game.getInstance();
 
     public HandGUI(game.logic.interfaces.Hand<Piece> hand) {
@@ -47,9 +48,16 @@ public abstract class HandGUI extends JPanel {
         if (back == false) {
             String file = new StringBuilder("/Resources/").append(piece.getFileName()).toString();
             return new Domino(getClass().getResource(file).getFile(), piece);
-        } else{
+        } else {
             return new Domino(getClass().getResource("/Resources/r-back.png").getFile(), piece);
         }
+    }
+
+    protected void removeFromHand(Domino domino) {
+        remove(domino);
+        dominos.remove(domino);
+        revalidate();
+        RoundLogic.getInstance().repaint();
     }
 
     public abstract void addDomino(Piece piece);

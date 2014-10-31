@@ -30,7 +30,9 @@ public class HandPlayerAI extends GUI.model.HandGUI{
         for(Domino domino: dominos){
             setOrientation(domino);
             add(domino);
-        }       
+        }
+        
+        this.hand = null;
     }
 
     private void setOrientation(Domino domino){
@@ -45,5 +47,12 @@ public class HandPlayerAI extends GUI.model.HandGUI{
         setOrientation(domino);
         add(domino);
         
+    }
+    
+    public void remove(Piece piece){
+        for(Domino domino: dominos){
+            if(domino.getPiece().equals(piece));
+            removeFromHand(domino);
+        }
     }
 }

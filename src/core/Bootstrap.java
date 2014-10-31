@@ -38,7 +38,9 @@ public class Bootstrap {
         handPlayer = new HandPieces[qtdPlayers];
         stack = new PiecesStack();
         initSWI(qtdPlayers);
-        initBoard(qtdPlayers, qtdAI).setVisible(true);
+        Board board = initBoard(qtdPlayers, qtdAI);
+        board.setVisible(true);
+        RoundLogic.getInstance().setBoard(board);
     }
 
     private void initSWI(int qtdJogadores) {

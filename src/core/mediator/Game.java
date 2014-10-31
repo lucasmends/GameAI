@@ -5,6 +5,7 @@
  */
 package core.mediator;
 
+import game.logic.PlayerAI;
 import game.logic.interfaces.Player;
 import game.logic.interfaces.Stack;
 import java.util.ArrayList;
@@ -15,40 +16,66 @@ import model.Piece;
  *
  * @author lucas
  */
-public class Game implements MediatorGame{
-    
+public class Game implements MediatorGame {
+
     private final static Game instance = new Game();
     private Stack stack;
     private final List<Player> players;
-    
-    
-    private Game(){
+
+    private Game() {
         players = new ArrayList<>();
         stack = null;
     }
-    
-    public static Game getInstance(){
+
+    public static Game getInstance() {
         return instance;
     }
-    
+
     @Override
-    public void setStack(Stack stack){
+    public void setStack(Stack stack) {
         this.stack = stack;
     }
-    
+
     @Override
-    public void addPlayer(Player player){
-        if(this.players.size() < 4){
+    public void addPlayer(Player player) {
+        if (this.players.size() < 4) {
             this.players.add(player);
         }
     }
 
     @Override
     public Piece takeStack() {
-        if(stack.qtdRemaining() > 0){
+        if (stack.qtdRemaining() > 0) {
             return (Piece) stack.getNext();
         }
         return null;
     }
-    
+
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+
+    @Override
+    public void informPiecePlaced(Piece piece, Player player) {
+        
+        for (Player play : players) {
+            if (!play.equals(player)) {
+                play.piecePlaced(piece);
+            }
+        }
+    }
+
+    @Override
+    public int[] checkPiecesRemainig(Player player) {
+        int[] remaining = new int[players.size()];
+
+        for (int i = 0; i < players.size(); i++) {
+            Player play = players.get(i);
+            if (!play.equals(player)) {
+                remaining[i] = play.remaining();
+            }
+        }
+
+        return remaining;
+    }
 }

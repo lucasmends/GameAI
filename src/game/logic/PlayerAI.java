@@ -5,7 +5,10 @@
  */
 package game.logic;
 
+import GUI.Hand.HandPlayerAI;
+import GUI.model.Domino;
 import GUI.model.HandGUI;
+import core.RoundLogic;
 import core.mediator.Game;
 import core.mediator.MediatorGame;
 import game.logic.interfaces.Player;
@@ -22,7 +25,7 @@ public class PlayerAI implements Player{
     private final Hand<Piece> hand;
     private final Query ai;      
     private final MediatorGame mediator = Game.getInstance();
-    private final HandGUI handGUI;
+    private final HandPlayerAI handGUI;
     private int point;
     
     public PlayerAI(Hand hand, Query ai, boolean upDirection){
@@ -62,7 +65,10 @@ public class PlayerAI implements Player{
 
     @Override
     public void doMove() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        //handGUI.remove(putOnBoard());
+        //mediator.informPiecePlaced(putOnBoard(), this);
+        //RoundLogic.getInstance().nextPlayerTurn();
     }
 
     @Override
@@ -75,4 +81,13 @@ public class PlayerAI implements Player{
         return this.point;
     }
     
+    @Override
+    public void piecePlaced(Piece pice){
+        ;
+    }
+
+    @Override
+    public int remaining() {
+        return hand.qtdHand();
+    }
 }

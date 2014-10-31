@@ -18,7 +18,8 @@ public interface Player {
     public Piece putOnBoard();
     public void doMove();
     public int getPoint();
-    
+    public int remaining();
+    public void piecePlaced(Piece piece);
     public Hand<Piece> showHand();
     
 }
