@@ -1,10 +1,7 @@
-% VERIFICAR QUAIS PECAS BATEM
+% CONCATENAR DUAS LISTAS
 
-combinaEsq(peca(X,_), L, peca(Z,X)) :- member(peca(Z,Y), L).
-combinaDir(peca(_,Y), L, peca(Y,Z)) :- member(peca(Y,Z), L).
-
-combina(Peca) :- combinaEsq(Peca).
-combina(Peca) :- combinaDir(Peca).
+concat([], L2, L2).
+concat([A|L1], L2, LF) :- concat(L1, [A|L2], LF).
 
 % TODAS AS PEÇAS AINDA NÃO PERTENCEM A NINGUÉM
 
@@ -37,28 +34,60 @@ iniciar_pecas(L) :- random_permutation(
 	peca(5,5),
 	peca(5,6),
 	peca(6,6)], L).
-	
-% DAR A PEÇA PARA ALGUÉM
-
-dar_pecas(X, [], X, 0).
-dar_pecas([peca(A, B)|Banco], [peca(A, B)|J], BancoFinal, I) :- member(peca(A, B), Banco), random_permutation(Banco, Banco2), dar_pecas(Banco2, J, BancoFinal, I-1).
 
 % VERIFICAR SE UMA PEÇA É ENCAIXÁVEL
 
-encaixavel(peca(A, _)) :- livre_esq(A), !.
-encaixavel(peca(A, _)) :- livre_dir(A), !.
-encaixavel(peca(_, B)) :- livre_esq(B), !.
-encaixavel(peca(_, B)) :- livre_dir(B), !.
+encaixavel(peca(A, _), A, _) :- !.
+encaixavel(peca(A, _), _, A) :- !.
+encaixavel(peca(_, B), B, _) :- !.
+encaixavel(peca(_, B), _, B) :- !.
 
-% LISTAR TODAS AS PEÇAS POSSÍVEIS DE UM JOGADOR, ou seja, as que podem ser jogadas
+% PREPARAR LISTA DE PEÇAS JOGÁVEIS
 
-possiveis([], []).
-possiveis([A|Pecas], [A|Possiveis]) :- encaixavel(A), !, possiveis(Pecas, Possiveis).
-possiveis([_|Pecas], Possiveis) :- possiveis(Pecas, Possiveis).
+preparar([], _, _, [], 0).
+preparar([A|Pecas], Esq, Dir, [A|Possiveis], P) :- encaixavel(A, Esq, Dir), !, possiveis(Pecas, Esq, Dir, Possiveis, P1), P is P1+1.
+preparar([_|Pecas], Esq, Dir, Possiveis, P) :- possiveis(Pecas, Esq, Dir, Possiveis, P).
 
-% ENCAIXAR A PEÇA NUM ESPAÇO VAGO
+/*
+ *  INTELIGÊNCIA ARTIFICAL
+ */
 
-encaixar(peca(X,Y), J, JF) :- livre_esq(X), !, delete(J, peca(X, Y), JF), retract(livre_esq(X)), asserta(livre_esq(Y)).
-encaixar(peca(X,Y), J) :- livre_dir(X), !, retract(peca(X, Y), J), retract(livre_dir(X)), asserta(livre_dir(Y)).
-encaixar(peca(X,Y), J) :- livre_esq(Y), !, retract(peca(X, Y), J), retract(livre_esq(Y)), asserta(livre_esq(X)).
-encaixar(peca(X,Y), J) :- livre_dir(X), !, retract(peca(X, Y), J), retract(livre_dir(Y)), asserta(livre_dir(X)).
+% AI BURRA: tudo no sort
+
+dumb(Lista, Esq, Dir, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, _), random_permutation(ListaInicial, [[_, peca(A, B)]|_]).
+
+smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, P1),
+	preparar(Inimigas, Esq, Dir, PecasInimigas, _), P1<MelhorInimigo, !,
+	combo(ListaInicial, PecasInimigas, Nini, ListaFinal), maior(ListaFinal, _, peca(A,B)).
+
+smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, P1),
+	preparar(Inimigas, Esq, Dir, PecasInimigas, _), P1 == MelhorInimigo, maybe, !,
+	combo(ListaInicial, PecasInimigas, Nini, ListaFinal), maior(ListaFinal, _, peca(A,B)).
+
+smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, _, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, P1),
+	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
+	evitar(ListaInicial, PecasInimigas, ListaFinal), maior(ListaFinal, _, peca(A,B)).
+
+% COMBO - tenta colocar uma peça com a maior probabilide de um inimigo colocá-la e eu poder colocar de novo
+
+combo([], _, _, []).
+combo([peca(A, B)|L], PecasInimigas, Nini, [[peca(A, B), P]|L2]) :- combo(L, PecasInimigas, Nini, L2), 
+    
+contar_peca(peca(_, _), peca(_, _), [], [], _, 0).
+contar_peca(peca(A,B), peca(C, D), _, _, 0, 1) :- encaixavel(peca(A,B), C, D), !.
+contar_peca(peca(A,B), peca(C, D), _, _, 0, 0) :- contar_peca(peca(A, B), L, P).
+
+contar_peca(peca(A,B), peca(A1, B1), LA, [peca(C, D)| LD], Nini, P) :- encaixavel(peca(A1, B1), C, D), !,
+    concat(LA, LD, LF), Nini2 is Nini-1, contar_peca(peca(A, B), peca(C, D), [], LF, Nini2, P1),
+    contar_peca(peca(A, B), peca(A1, B1), [peca(C, D)|LA], LD, Nini, P2), P is P1+P2.
+
+contar_peca(peca(A,B), peca(A1, B1), LA, [peca(C, D)| LD], Nini, P) :- 
+    contar_peca(peca(A, B), peca(A1, B1), [peca(C, D)|LA], LD, Nini, P).
+
+% Maior valor de uma lista dupla de valores
+
+maior([P, peca(A, B)], P, peca(A, B)) :- !.
+maior([[P, peca(A, B)]|L], M1, peca(C, D)) :- maior(L, M1, peca(C, D)), M1>P, !.
+maior([[P, peca(A, B)]|L], M1, peca(C, D)) :- maior(L, M1, peca(C, D)), M1==P, maybe, !.
+maior([[P, peca(A, B)]|L], P, peca(A, B)).
+
