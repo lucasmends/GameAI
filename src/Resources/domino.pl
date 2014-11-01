@@ -45,8 +45,8 @@ encaixavel(peca(_, B), _, B) :- !.
 % PREPARAR LISTA DE PEÇAS JOGÁVEIS
 
 preparar([], _, _, [], 0).
-preparar([A|Pecas], Esq, Dir, [A|Possiveis], P) :- encaixavel(A, Esq, Dir), !, possiveis(Pecas, Esq, Dir, Possiveis, P1), P is P1+1.
-preparar([_|Pecas], Esq, Dir, Possiveis, P) :- possiveis(Pecas, Esq, Dir, Possiveis, P).
+preparar([peca(A, B)|Pecas], Esq, Dir, [peca(A, B)|Possiveis], P) :- encaixavel(peca(A, B), Esq, Dir), !, preparar(Pecas, Esq, Dir, Possiveis, P1), P is P1+1.
+preparar([_|Pecas], Esq, Dir, Possiveis, P) :- preparar(Pecas, Esq, Dir, Possiveis, P).
 
 /*
  *  INTELIGÊNCIA ARTIFICAL
