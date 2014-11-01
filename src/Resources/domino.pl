@@ -68,16 +68,18 @@ smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :- preparar(Li
 
 smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, _, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, P1),
 	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
-	evitar(ListaInicial, PecasInimigas, ListaFinal), maior(ListaFinal, _, peca(A,B)).
+	evitar(ListaInicial, [], PecasInimigas, ListaFinal), maior(ListaFinal, _, peca(A,B)).
 
 % COMBO - tenta colocar uma peça com a maior probabilide de um inimigo colocá-la e eu poder colocar de novo
 
 combo([], _, _, []).
-combo([peca(A, B)|L], PecasInimigas, Nini, [[peca(A, B), P]|L2]) :- combo(L, PecasInimigas, Nini, L2), 
+combo([peca(A, B)|L], PecasInimigas, Nini, [[peca(A, B), P]|L2]) :- 
+    combo(L, PecasInimigas, Nini, L2),
+    contar_peca(peca(A, B), peca(A, B), [], PecasInimigas, Nini, P).
     
 contar_peca(peca(_, _), peca(_, _), [], [], _, 0).
 contar_peca(peca(A,B), peca(C, D), _, _, 0, 1) :- encaixavel(peca(A,B), C, D), !.
-contar_peca(peca(A,B), peca(C, D), _, _, 0, 0) :- contar_peca(peca(A, B), L, P).
+contar_peca(peca(A,B), peca(C, D), _, _, 0, 0) :- !.
 
 contar_peca(peca(A,B), peca(A1, B1), LA, [peca(C, D)| LD], Nini, P) :- encaixavel(peca(A1, B1), C, D), !,
     concat(LA, LD, LF), Nini2 is Nini-1, contar_peca(peca(A, B), peca(C, D), [], LF, Nini2, P1),
@@ -85,6 +87,21 @@ contar_peca(peca(A,B), peca(A1, B1), LA, [peca(C, D)| LD], Nini, P) :- encaixave
 
 contar_peca(peca(A,B), peca(A1, B1), LA, [peca(C, D)| LD], Nini, P) :- 
     contar_peca(peca(A, B), peca(A1, B1), [peca(C, D)|LA], LD, Nini, P).
+
+% EVITAR - evita que o inimigo consiga colocar sua peca
+
+evitar([], _, _, []).
+evitar([peca(A, B)|L], LD, ListaInimigos, [[peca(A, B), P]|ListaFinal]) :- evitar(L, [peca(A, B)|LD], ListaInimigos, ListaFinal)
+    concat(LD, L, LF), peso_evitar(peca(A, B), LF, ListaInimigos, P).
+
+peso_evitar(peca(A, B), MinhasPecas, [], D) :- contar_decimos(peca(A, B), MinhasPecas, D).
+peso_evitar(peca(A, B), MinhasPecas, [peca(C, D)|ListaInimigos], P) :- peso_evitar(peca(A, B), MinhasPecas, ListaInimigos, P1)
+    encaixavel(peca(C, D), A, B), !, P is P1-1.
+peso_evitar(peca(A, B), MinhasPecas, [_|MP], P) :- peso_evitar(peca(A, B), MinhasPecas, MP, P).
+
+contar_decimos(peca(A, B), [], 0).
+contar_decimos(peca(A, B), [peca(C, D)|MP], D) :- encaixavel(peca(C, D), A, B), !, contar_decimos(peca(A, B), MP, D1), D is D1+(1/10).
+contar_decimos(peca(A, B), [_|MP], D) :- contar_decimos(peca(A, B), MP, D).
 
 % Maior valor de uma lista dupla de valores
 

@@ -22,11 +22,13 @@ public class Game implements MediatorGame {
     private Stack stack;
     private final List<Player> players;
     private final int[] pontas;
+    private final List<Piece> allPieces;
 
     private Game() {
         players = new ArrayList<>();
         stack = null;
 	pontas = new int[2];
+	allPieces = new ArrayList<>(28);
     }
 
     public static Game getInstance() {
