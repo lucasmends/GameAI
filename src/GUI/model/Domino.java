@@ -6,7 +6,7 @@
 package GUI.model;
 
 import GUI.Hand.HandPlayer;
-import game.logic.interfaces.Player;
+import model.interfaces.Player;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,7 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import model.Piece;
+import model.interfaces.Piece;
 
 /**
  *

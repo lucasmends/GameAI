@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.interfaces;
 
-import jpl.Term;
+import java.util.List;
 
 /**
  *
  * @author lucas
+ * @param <T>
  */
-public interface Piece {
-    public int[] values();
-    public Term getTerm();
-    public String getFileName();
-    
-    public int getPoint();
+public interface Stack<T> {
+    public int qtdRemaining();
+    public T getNext();
+    public void populate(List<T> list);
 }

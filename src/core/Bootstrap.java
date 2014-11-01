@@ -5,14 +5,16 @@
  */
 package core;
 
+import logic.game.RoundLogic;
+import model.interfaces.Player;
+import model.interfaces.Hand;
 import GUI.Board;
 import GUI.Hand.HandPlayer;
 import GUI.model.HandGUI;
-import core.mediator.Game;
-import game.logic.HandPieces;
-import game.logic.PiecesStack;
-import game.logic.PlayerAI;
-import game.logic.interfaces.*;
+import logic.game.Game;
+import model.HandPieces;
+import model.PiecesStack;
+import logic.AI.PlayerAI;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
@@ -21,7 +23,7 @@ import jpl.Query;
 import jpl.Term;
 import jpl.Util;
 import jpl.Variable;
-import model.Piece;
+import model.interfaces.Piece;
 import model.ConcretePiece;
 
 /**

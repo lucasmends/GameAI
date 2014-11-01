@@ -5,7 +5,7 @@
  */
 package core;
 
-import GUI.model.InitScreen;
+import GUI.InitScreen;
 
 /**
  *

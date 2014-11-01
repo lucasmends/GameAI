@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core;
+package logic.game;
 
 import GUI.Board;
-import core.mediator.Game;
-import game.logic.interfaces.Player;
+import logic.game.Game;
+import model.interfaces.Player;
 import java.util.List;
-import model.Piece;
+import model.interfaces.Piece;
 
 /**
  *

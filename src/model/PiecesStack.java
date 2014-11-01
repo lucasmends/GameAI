@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.logic;
+package model;
 
-import game.logic.interfaces.Stack;
+import model.interfaces.Stack;
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
-import model.Piece;
+import model.interfaces.Piece;
 
 /**
  *

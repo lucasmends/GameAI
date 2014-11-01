@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.logic;
+package model;
 
-import game.logic.interfaces.*;
+import model.interfaces.Hand;
 import java.util.ArrayList;
 import java.util.List;
 import jpl.Term;
 import jpl.Util;
-import model.Piece;
+import model.interfaces.Piece;
 
 /**
  *

@@ -5,6 +5,7 @@
  */
 package model;
 
+import model.interfaces.Piece;
 import jpl.Compound;
 import jpl.Term;
 

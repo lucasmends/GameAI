@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.logic.interfaces;
+package model.interfaces;
 
-import model.Piece;
+import model.interfaces.Hand;
 
 /**
  *

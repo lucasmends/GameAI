@@ -6,8 +6,8 @@
 package GUI.Hand;
 
 import GUI.model.Domino;
-import game.logic.interfaces.Hand;;
-import model.Piece;
+import model.interfaces.Hand;;
+import model.interfaces.Piece;
 
 /**
  *

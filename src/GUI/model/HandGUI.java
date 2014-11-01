@@ -5,13 +5,13 @@
  */
 package GUI.model;
 
-import core.RoundLogic;
-import core.mediator.Game;
-import core.mediator.MediatorGame;
+import logic.game.RoundLogic;
+import logic.game.Game;
+import logic.game.MediatorGame;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
-import model.Piece;
+import model.interfaces.Piece;
 
 /**
  *
@@ -19,11 +19,11 @@ import model.Piece;
  */
 public abstract class HandGUI extends JPanel {
 
-    protected game.logic.interfaces.Hand<Piece> hand;
+    protected model.interfaces.Hand<Piece> hand;
     protected final List<Domino> dominos;
     protected final MediatorGame mediator = Game.getInstance();
 
-    public HandGUI(game.logic.interfaces.Hand<Piece> hand) {
+    public HandGUI(model.interfaces.Hand<Piece> hand) {
         this.hand = hand;
         dominos = new ArrayList<>(7);
     }

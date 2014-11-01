@@ -1,10 +1,10 @@
 package GUI.Hand;
 
 import GUI.model.Domino;
-import core.RoundLogic;
-import game.logic.interfaces.Player;
-import game.logic.interfaces.Hand;
-import model.Piece;
+import logic.game.RoundLogic;
+import model.interfaces.Player;
+import model.interfaces.Hand;
+import model.interfaces.Piece;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

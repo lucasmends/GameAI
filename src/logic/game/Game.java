@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package core.mediator;
+package logic.game;
 
-import game.logic.PlayerAI;
-import game.logic.interfaces.Player;
-import game.logic.interfaces.Stack;
+import logic.AI.PlayerAI;
+import model.interfaces.Player;
+import model.interfaces.Stack;
 import java.util.ArrayList;
 import java.util.List;
-import model.Piece;
+import model.interfaces.Piece;
 
 /**
  *

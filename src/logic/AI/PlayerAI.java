@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.logic;
+package logic.AI;
 
 import GUI.Hand.HandPlayerAI;
 import GUI.model.Domino;
 import GUI.model.HandGUI;
-import core.RoundLogic;
-import core.mediator.Game;
-import core.mediator.MediatorGame;
-import game.logic.interfaces.Player;
-import game.logic.interfaces.Hand;
+import logic.game.RoundLogic;
+import logic.game.Game;
+import logic.game.MediatorGame;
+import model.interfaces.Player;
+import model.interfaces.Hand;
 import jpl.Query;
-import model.Piece;
+import model.interfaces.Piece;
 
 /**
  *
