@@ -3,42 +3,42 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.logic;
+package model;
 
-import game.logic.interfaces.Pilha;
+import model.interfaces.Stack;
+import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.SynchronousQueue;
-import model.Peca;
+import model.interfaces.Piece;
 
 /**
  *
  * @author lucas
  */
-public class PilhaPecas implements Pilha<Peca>{
+public class PiecesStack implements Stack<Piece>{
 
-    private final Queue<Peca> pilha;
+    private final Queue<Piece> pilha;
     
-    public PilhaPecas(){
-        pilha = new SynchronousQueue<>();
+    public PiecesStack(){
+        pilha = new ArrayDeque<>();
     }
     
     @Override
-    public void popular(List<Peca> list) {
-	pilha.addAll(list);
+    public void populate(List<Piece> list) {
+        pilha.addAll(list);
     }
     
-    public void addPeca(Peca peca){
+    public void addPeca(Piece peca){
         pilha.add(peca);
     }
     
     @Override
-    public int qtdRestantes() {
+    public int qtdRemaining() {
         return pilha.size();
     }
 
     @Override
-    public Peca getProxima() {
+    public Piece getNext() {
         return pilha.remove();
     }
     

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.interfaces;
 
 import jpl.Term;
 
@@ -11,7 +11,10 @@ import jpl.Term;
  *
  * @author lucas
  */
-public interface Peca {
-    public int[] valores();
+public interface Piece {
+    public int[] values();
     public Term getTerm();
+    public String getFileName();
+    
+    public int getPoint();
 }

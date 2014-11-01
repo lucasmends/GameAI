@@ -5,8 +5,8 @@
  */
 package core;
 
-import java.util.Hashtable;
-import jpl.*;
+import GUI.InitScreen;
+
 /**
  *
  * @author lucas
@@ -14,6 +14,6 @@ import jpl.*;
 public class Main {
     
     public static void main(String args[]){
-        Bootstrap boot = new Bootstrap(2);
+       new InitScreen(new javax.swing.JFrame(), true).setVisible(true);
     }
 }
