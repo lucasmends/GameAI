@@ -21,4 +21,5 @@ public interface MediatorGame {
     public Piece takeStack();
     public void informPiecePlaced(Piece piece, Player player);
     public int[] checkPiecesRemainig(Player player);
+    public int[] checkFreeSlots();
 }

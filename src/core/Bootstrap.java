@@ -23,6 +23,7 @@ import jpl.Query;
 import jpl.Term;
 import jpl.Util;
 import jpl.Variable;
+import logic.AI.DumbAI;
 import model.interfaces.Piece;
 import model.ConcretePiece;
 
@@ -88,7 +89,7 @@ public class Bootstrap {
         }
         boolean upDirection = false;
         for(int i = (qtdPlayers - qtdAI); i < qtdPlayers; i++){
-            PlayerAI AI = new PlayerAI(handPlayer[i], null, upDirection);  
+            PlayerAI AI = new DumbAI(handPlayer[i], null, upDirection);  
             AIsGUIs.add(AI.getHand());
             Game.getInstance().addPlayer(AI);
             

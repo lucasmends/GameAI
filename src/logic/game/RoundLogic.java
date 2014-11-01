@@ -50,7 +50,7 @@ public class RoundLogic {
         } else{
             if(movePossible()){
                 //o jogador ganhou
-                ;
+                
             }else{
                 //verificando pelos pontos
                 int[] pontuation = new int[players.size()];

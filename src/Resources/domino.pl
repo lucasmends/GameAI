@@ -56,6 +56,8 @@ preparar([_|Pecas], Esq, Dir, Possiveis, P) :- possiveis(Pecas, Esq, Dir, Possiv
 
 dumb(Lista, Esq, Dir, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, _), random_permutation(ListaInicial, [[_, peca(A, B)]|_]).
 
+% AI ESPERTA
+
 smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, P1),
 	preparar(Inimigas, Esq, Dir, PecasInimigas, _), P1<MelhorInimigo, !,
 	combo(ListaInicial, PecasInimigas, Nini, ListaFinal), maior(ListaFinal, _, peca(A,B)).

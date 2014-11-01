@@ -21,10 +21,12 @@ public class Game implements MediatorGame {
     private final static Game instance = new Game();
     private Stack stack;
     private final List<Player> players;
+    private final int[] pontas;
 
     private Game() {
         players = new ArrayList<>();
         stack = null;
+	pontas = new int[2];
     }
 
     public static Game getInstance() {
@@ -57,7 +59,7 @@ public class Game implements MediatorGame {
 
     @Override
     public void informPiecePlaced(Piece piece, Player player) {
-        
+        atualizarPontasSoltas(piece);
         for (Player play : players) {
             if (!play.equals(player)) {
                 play.piecePlaced(piece);
@@ -77,5 +79,23 @@ public class Game implements MediatorGame {
         }
 
         return remaining;
+    }
+    
+    @Override
+    public int[] checkFreeSlots() {
+	return pontas;
+    }
+    
+    private void atualizarPontasSoltas(Piece peca) {
+	int[] lados = peca.values();
+	
+	if (pontas[0] == lados[0])
+	    pontas[0] = lados[1];
+	else if (pontas[0] == lados[1])
+	    pontas[0] = lados[0];
+	else if (pontas[1] == lados[0])
+	    pontas[1] = lados[1];
+	else if (pontas[1] == lados[1])
+	    pontas[1] = lados[0];
     }
 }
