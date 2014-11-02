@@ -15,7 +15,7 @@ import model.interfaces.Hand;
 public class SmartAI extends PlayerAI{
 
     public SmartAI(Hand hand, Query ai, boolean upDirection) {
-	super(hand, ai, upDirection);
+	super(hand, upDirection);
     }
 
     @Override

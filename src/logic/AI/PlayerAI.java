@@ -23,14 +23,12 @@ import model.interfaces.Piece;
 public abstract class PlayerAI implements Player{
 
     protected Hand<Piece> hand;
-    protected Query ai;
     protected MediatorGame mediator = Game.getInstance();
     protected HandPlayerAI handGUI;
     protected int point;
     
-    public PlayerAI(Hand hand, Query ai, boolean upDirection){
+    public PlayerAI(Hand hand, boolean upDirection){
         this.hand = hand;
-        this.ai = ai;
         this.handGUI = new GUI.Hand.HandPlayerAI(hand, 0, upDirection);
         this.point = 0;
         for(int i = 0; i < hand.qtdHand(); i++)

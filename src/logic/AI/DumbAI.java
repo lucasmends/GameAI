@@ -20,8 +20,8 @@ import model.interfaces.Piece;
  */
 public class DumbAI extends PlayerAI {
 
-    public DumbAI(Hand hand, Query ai, boolean upDirection) {
-	super(hand, ai, upDirection);
+    public DumbAI(Hand hand, boolean upDirection) {
+	super(hand, upDirection);
     }
 
     @Override
