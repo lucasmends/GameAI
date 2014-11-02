@@ -15,12 +15,12 @@ import model.interfaces.Player;
  *
  * @author lucas
  */
-public class MouseDomino implements MouseListener{
+public class MouseDominoHand implements MouseListener{
 
     private final Domino domino;
     private final Player player;
     
-    public MouseDomino(Domino domino, Player player){
+    public MouseDominoHand(Domino domino, Player player){
         this.domino = domino;
         this.player = player;
     }

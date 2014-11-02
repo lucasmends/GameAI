@@ -30,7 +30,7 @@ public class Board extends JPanel {
     private Board() {
         dominos = new LinkedList<>();
         ends = new int[2];
-        setMinimumSize(new java.awt.Dimension(360, 560));
+        //setMinimumSize(new java.awt.Dimension(360, 560));
     }
 
     public boolean addDomino(Domino domino) {
