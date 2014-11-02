@@ -51,9 +51,11 @@ public class HandPlayerAI extends GUI.model.HandGUI{
     }
     
     public synchronized void remove(Piece piece){
-        for(Domino domino: dominos){
-            if(domino.getPiece().equals(piece));
-            removeFromHand(domino);
+        for(int i = 0; i < dominos.size(); i++){
+            if(dominos.get(i).getPiece().equals(piece)){
+                removeFromHand(i);
+                break;
+            }
         }
     }
     
