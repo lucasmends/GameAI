@@ -6,8 +6,10 @@
 package GUI;
 
 import GUI.model.Domino;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import javax.swing.JPanel;
 import logic.game.RoundLogic;
 import model.interfaces.Piece;
@@ -94,5 +96,13 @@ public class Board extends JPanel {
 
     public int[] sidesPossible() {
         return ends;
+    }
+    
+    public List<Domino> dominosPlaced(){
+        ArrayList<Domino> list = new ArrayList<>(dominos.size());
+        for(Domino domino: dominos)
+            list.add(domino);
+        
+        return list;
     }
 }
