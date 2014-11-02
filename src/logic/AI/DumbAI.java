@@ -40,6 +40,7 @@ public class DumbAI extends PlayerAI {
 		Term peca = (Term)resposta.get("P");
 		return new ConcretePiece(peca);
 	    } else {
+		System.out.println("Não temos pecas disponiveis");
 		possiblePlay = this.takeFromStack();
 	    }
 	}
