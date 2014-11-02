@@ -40,7 +40,7 @@ public final class Domino extends JPanel{
         this.active = false;
         image = new ImageIcon(file).getImage();
         setSize();
-        addMouseListener(new MouseDominoHand(this, player));
+        //addMouseListener(new MouseDominoHand(this, player));
     }
 
     public void setPlayer(Player player) {

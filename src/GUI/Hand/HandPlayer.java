@@ -64,6 +64,11 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     // End of variables declaration//GEN-END:variables
     @Override
     public boolean takeFromStack() {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException ex) {
+            System.err.println(ex.getMessage());
+        }
         Piece piece = mediator.takeStack();
         if (piece != null) {
             this.point += piece.getPoint();
@@ -81,23 +86,34 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     public void putOnBoard(Domino domino) {
 
         if (Board.getInstance().addDomino(domino)) {
-            mediator.informPiecePlaced(domino.getPiece(), this);
-
-            removeFromHand(domino);
-
-            hand.remove(domino.getPiece());
-            this.point -= domino.getPiece().getPoint();
-
-            setActive(false);
-            RoundLogic.getInstance().nextPlayerTurn();
+            update(domino);
         }
 
+    }
+
+    public void putOnBoard(Domino domino, int side) {
+
+        if (Board.getInstance().addDomino(domino, side)) {
+            update(domino);
+        }
+
+    }
+
+    private void update(Domino domino) {
+        mediator.informPiecePlaced(domino.getPiece(), this);
+
+        removeFromHand(domino);
+
+        hand.remove(domino.getPiece());
+        this.point -= domino.getPiece().getPoint();
+
+        setActive(false);
+        RoundLogic.getInstance().nextPlayerTurn();
     }
 
     @Override
     public void doMove() {
         if (firstPiece >= 0) {
-            //System.out.println(dominos.get(firstPiece));
             putOnBoard(dominos.get(firstPiece));
             firstPiece = -1;
         } else {
@@ -111,7 +127,7 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
                 setActive(true);
             } else {
                 //timer e mensagem para pegar do stack
-                
+
                 if (takeFromStack()) {
                     doMove();
                 }
