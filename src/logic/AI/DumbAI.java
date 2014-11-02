@@ -26,25 +26,23 @@ public class DumbAI extends PlayerAI {
     }
 
     @Override
-    public void doMove() {
-        Piece piece = putOnBoard();
-	handGUI.remove(piece);
-        //mediator.informPiecePlaced(putOnBoard(), this);
-        RoundLogic.getInstance().nextPlayerTurn();
-
-    }
-
-    @Override
     public Piece putOnBoard(){
  	Variable pecaVar = new Variable("P");
+	boolean possiblePlay = true;
 	int[] sides = Board.getInstance().sidesPossible();
-	Query movimento = new Query("dumb", new Term[]{hand.getTerm(), new jpl.Integer(sides[0]), new jpl.Integer(sides[1]), pecaVar});
+	Query movimento; 
 	
-	if (movimento.hasSolution()) {
-	    Hashtable resposta = movimento.oneSolution();
-	    Term peca = (Term)resposta.get("P");
-	    return new ConcretePiece(peca);
+	while (possiblePlay) {
+	    movimento = new Query("dumb", new Term[]{hand.getTerm(), new jpl.Integer(sides[0]), new jpl.Integer(sides[1]), pecaVar});
+	
+	    if (movimento.hasSolution()) {
+	        Hashtable resposta = movimento.oneSolution();
+		Term peca = (Term)resposta.get("P");
+		return new ConcretePiece(peca);
+	    } else {
+		possiblePlay = this.takeFromStack();
+	    }
 	}
-        return null;
+	return null;
     }
 }
