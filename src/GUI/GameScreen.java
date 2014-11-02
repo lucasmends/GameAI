@@ -19,6 +19,14 @@ public class GameScreen extends javax.swing.JFrame {
      */
     public GameScreen() {
         initComponents();
+
+        java.awt.GridBagConstraints gridBagConstraints;
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+
+        getContentPane().add(Board.getInstance(), gridBagConstraints);
     }
 
     /**

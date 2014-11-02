@@ -30,6 +30,7 @@ public class Board extends JPanel {
     private Board() {
         dominos = new LinkedList<>();
         ends = new int[2];
+        setMinimumSize(new java.awt.Dimension(360, 560));
     }
 
     public boolean addDomino(Domino domino) {
@@ -67,7 +68,7 @@ public class Board extends JPanel {
 
     private void addDominoBoard(Domino domino, int side) {
         
-        
+       add(domino); 
        RoundLogic.getInstance().repaint();
     }
 
@@ -75,9 +76,6 @@ public class Board extends JPanel {
         return instance;
     }
 
-    public boolean putOnBoard(Domino domino) {
-        return true;
-    }
 
     public boolean checkPossible(Domino domino) {
         if (domino.getPiece().values()[LEFT] == ends[LEFT] || domino.getPiece().values()[LEFT] == ends[RIGHT]) {

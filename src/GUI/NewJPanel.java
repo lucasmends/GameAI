@@ -28,6 +28,7 @@ public class NewJPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 5, true));
+        setMinimumSize(new java.awt.Dimension(360, 560));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 formMouseClicked(evt);
@@ -38,11 +39,11 @@ public class NewJPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 850, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 290, Short.MAX_VALUE)
+            .addGap(0, 550, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
