@@ -6,6 +6,7 @@
 package GUI.Hand;
 
 import GUI.model.Domino;
+import java.util.List;
 import model.interfaces.Hand;;
 import model.interfaces.Piece;
 
@@ -49,10 +50,14 @@ public class HandPlayerAI extends GUI.model.HandGUI{
         
     }
     
-    public void remove(Piece piece){
+    public synchronized void remove(Piece piece){
         for(Domino domino: dominos){
             if(domino.getPiece().equals(piece));
             removeFromHand(domino);
         }
+    }
+    
+    public List<Domino> getDominos(){
+        return dominos;
     }
 }

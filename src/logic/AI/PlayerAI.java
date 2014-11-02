@@ -8,7 +8,7 @@ package logic.AI;
 import GUI.Hand.HandPlayerAI;
 import GUI.model.Domino;
 import GUI.model.HandGUI;
-import logic.game.RoundLogic;
+import java.util.List;
 import logic.game.Game;
 import logic.game.MediatorGame;
 import model.interfaces.Player;
@@ -44,7 +44,7 @@ public abstract class PlayerAI implements Player{
     }
     
     @Override
-    public void takeFromStack() {
+    public boolean takeFromStack() {
         Piece pecaPilha = mediator.takeStack();
         if(pecaPilha != null){
             //Colocar a logica em prolog para a pilha
@@ -52,13 +52,11 @@ public abstract class PlayerAI implements Player{
             this.point += pecaPilha.getPoint();
             hand.add(pecaPilha);
             handGUI.addDomino(pecaPilha);
+            return true;
         }
+        return false;
     }
 
-    @Override
-    public Piece putOnBoard() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public abstract void doMove();
@@ -81,5 +79,15 @@ public abstract class PlayerAI implements Player{
     @Override
     public int remaining() {
         return hand.qtdHand();
+    }
+    
+    @Override
+    public List<Domino> getDominos(){
+        return this.handGUI.getDominos();
+    }
+    
+    @Override
+    public void placePiece(int i){
+        ;
     }
 }

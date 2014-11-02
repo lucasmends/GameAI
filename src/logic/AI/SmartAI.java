@@ -7,6 +7,7 @@ package logic.AI;
 
 import jpl.Query;
 import model.interfaces.Hand;
+import model.interfaces.Piece;
 
 /**
  *
@@ -14,7 +15,7 @@ import model.interfaces.Hand;
  */
 public class SmartAI extends PlayerAI{
 
-    public SmartAI(Hand hand, Query ai, boolean upDirection) {
+    public SmartAI(Hand hand, boolean upDirection) {
 	super(hand, upDirection);
     }
 
@@ -22,5 +23,12 @@ public class SmartAI extends PlayerAI{
     public void doMove() {
 	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Piece putOnBoard() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
     
 }

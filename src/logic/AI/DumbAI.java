@@ -5,11 +5,12 @@
  */
 package logic.AI;
 
+import GUI.Board;
 import java.util.Hashtable;
 import jpl.Query;
 import jpl.Term;
 import jpl.Variable;
-import logic.game.Game;
+import logic.game.RoundLogic;
 import model.ConcretePiece;
 import model.interfaces.Hand;
 import model.interfaces.Piece;
@@ -26,18 +27,24 @@ public class DumbAI extends PlayerAI {
 
     @Override
     public void doMove() {
-	//handGUI.remove(putOnBoard());
+        Piece piece = putOnBoard();
+	handGUI.remove(piece);
         //mediator.informPiecePlaced(putOnBoard(), this);
-        //RoundLogic.getInstance().nextPlayerTurn();
-	Variable pecaVar = new Variable("P");
-	int[] pontas = Game.getInstance().checkFreeSlots();
-	Query movimento = new Query("dumb", new Term[]{hand.getTerm(), new jpl.Integer(pontas[0]), new jpl.Integer(pontas[1]), pecaVar});
+        RoundLogic.getInstance().nextPlayerTurn();
+
+    }
+
+    @Override
+    public Piece putOnBoard(){
+ 	Variable pecaVar = new Variable("P");
+	int[] sides = Board.getInstance().sidesPossible();
+	Query movimento = new Query("dumb", new Term[]{hand.getTerm(), new jpl.Integer(sides[0]), new jpl.Integer(sides[1]), pecaVar});
 	
 	if (movimento.hasSolution()) {
 	    Hashtable resposta = movimento.oneSolution();
 	    Term peca = (Term)resposta.get("P");
-	    Piece piece = new ConcretePiece(peca);
+	    return new ConcretePiece(peca);
 	}
+        return null;
     }
-    
 }

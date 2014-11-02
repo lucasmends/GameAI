@@ -8,7 +8,7 @@ package core;
 import logic.game.RoundLogic;
 import model.interfaces.Player;
 import model.interfaces.Hand;
-import GUI.Board;
+import GUI.GameScreen;
 import GUI.Hand.HandPlayer;
 import GUI.model.HandGUI;
 import logic.game.Game;
@@ -41,7 +41,7 @@ public class Bootstrap {
         handPlayer = new HandPieces[qtdPlayers];
         stack = new PiecesStack();
         initSWI(qtdPlayers);
-        Board board = initBoard(qtdPlayers, qtdAI);
+        GameScreen board = initBoard(qtdPlayers, qtdAI);
         board.setVisible(true);
         RoundLogic.getInstance().setBoard(board);
     }
@@ -78,8 +78,8 @@ public class Bootstrap {
 	return lista;
     }
 
-    private Board initBoard(int qtdPlayers, int qtdAI){
-        Board boardGame = new Board();
+    private GameScreen initBoard(int qtdPlayers, int qtdAI){
+        GameScreen boardGame = new GameScreen();
         List<HandGUI> AIsGUIs = new ArrayList<>(qtdAI);
         
         if(qtdPlayers - qtdAI > 0){
