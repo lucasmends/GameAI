@@ -27,6 +27,7 @@ public class GameScreen extends javax.swing.JFrame {
         gridBagConstraints.gridy = 2;
 
         getContentPane().add(Board.getInstance(), gridBagConstraints);
+        pack();
     }
 
     /**

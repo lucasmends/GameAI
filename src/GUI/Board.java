@@ -6,6 +6,7 @@
 package GUI;
 
 import GUI.model.Domino;
+import java.awt.Dimension;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -25,14 +26,37 @@ public class Board extends JPanel {
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
 
+    private final int X = 0;
+    private final int Y = 1;
+
     private static final Board instance = new Board();
     private final Deque<Domino> dominos;
     private final int[] ends;
 
+    private final int left[];
+    private final int right[];
+
     private Board() {
         dominos = new LinkedList<>();
         ends = new int[2];
-        //setMinimumSize(new java.awt.Dimension(360, 560));
+        left = new int[2];
+        left[X] = 5;
+        left[Y] = 0;
+        right = new int[2];
+        right[X] = 4;
+        right[Y] = 0;
+
+        initComponents();
+    }
+
+    public static Board getInstance() {
+        return instance;
+    }
+
+    private void initComponents() {
+        setLayout(new java.awt.GridBagLayout());
+        setMinimumSize(new Dimension(460, 280));
+        setPreferredSize(new Dimension(640, 360));
     }
 
     public boolean addDomino(Domino domino) {
@@ -83,22 +107,36 @@ public class Board extends JPanel {
 
     private void addDominoBoard(Domino domino, int side) {
 
+        java.awt.GridBagConstraints gridBagConstraints;
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+        if (side == LEFT) {
+            gridBagConstraints.gridx = --left[X];
+            gridBagConstraints.gridy = left[Y];
+        } else {
+            gridBagConstraints.gridx = --right[X];
+            gridBagConstraints.gridy = right[Y];
+        }
+
+        add(domino, gridBagConstraints);
+
         domino.setActive(false);
         MouseListener[] listeners = domino.getMouseListeners();
         if (listeners != null) {
             domino.removeMouseListener(domino.getMouseListeners()[0]);
         }
-        if(domino.getPlayer() instanceof PlayerAI){
+        if (domino.getPlayer() instanceof PlayerAI) {
             String file = new StringBuilder("/Resources/").append(domino.getPiece().getFileName()).toString();
             domino.changeImage(file);
         }
-        add(domino);
+
+        if (side == LEFT) {
+            dominos.addFirst(domino);
+        } else {
+            dominos.addLast(domino);
+        }
 
         RoundLogic.getInstance().repaint();
-    }
-
-    public static Board getInstance() {
-        return instance;
     }
 
     public boolean checkPossible(Domino domino) {
