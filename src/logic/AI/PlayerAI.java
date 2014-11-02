@@ -21,33 +21,31 @@ import model.interfaces.Piece;
  *
  * @author lucas
  */
-public abstract class PlayerAI implements Player{
+public abstract class PlayerAI implements Player {
 
     protected Hand<Piece> hand;
     protected MediatorGame mediator = Game.getInstance();
     protected HandPlayerAI handGUI;
     protected int point;
-    
-    public PlayerAI(Hand hand, boolean upDirection){
+
+    public PlayerAI(Hand hand, boolean upDirection) {
         this.hand = hand;
         this.handGUI = new GUI.Hand.HandPlayerAI(hand, 0, upDirection);
         this.point = 0;
-        for(int i = 0; i < hand.qtdHand(); i++)
-        {
+        for (int i = 0; i < hand.qtdHand(); i++) {
             Piece piece = (Piece) hand.show(i);
             this.point += piece.getPoint();
         }
     }
-    
-    
-    public HandGUI getHand(){
+
+    public HandGUI getHand() {
         return this.handGUI;
     }
-    
+
     @Override
     public boolean takeFromStack() {
         Piece pecaPilha = mediator.takeStack();
-        if(pecaPilha != null){
+        if (pecaPilha != null) {
             //Colocar a logica em prolog para a pilha
             this.point += pecaPilha.getPoint();
             hand.add(pecaPilha);
@@ -57,12 +55,13 @@ public abstract class PlayerAI implements Player{
         return false;
     }
 
-
     @Override
-    public void doMove(){
+    public void doMove() {
         Piece piece = putOnBoard();
-	handGUI.remove(piece);
-        //mediator.informPiecePlaced(putOnBoard(), this);
+        if (piece != null) {
+            handGUI.remove(piece);
+            mediator.informPiecePlaced(piece, this);
+        }
         RoundLogic.getInstance().nextPlayerTurn();
     }
 
@@ -75,9 +74,9 @@ public abstract class PlayerAI implements Player{
     public int getPoint() {
         return this.point;
     }
-    
+
     @Override
-    public void piecePlaced(Piece pice){
+    public void piecePlaced(Piece pice) {
         ;
     }
 
@@ -85,14 +84,14 @@ public abstract class PlayerAI implements Player{
     public int remaining() {
         return hand.qtdHand();
     }
-    
+
     @Override
-    public List<Domino> getDominos(){
+    public List<Domino> getDominos() {
         return this.handGUI.getDominos();
     }
-    
+
     @Override
-    public void placePiece(int i){
+    public void placePiece(int i) {
         ;
     }
 }
