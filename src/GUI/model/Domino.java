@@ -5,7 +5,7 @@
  */
 package GUI.model;
 
-import GUI.model.event.MouseDomino;
+import GUI.model.event.MouseDominoHand;
 import model.interfaces.Player;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -40,12 +40,12 @@ public final class Domino extends JPanel{
         this.active = false;
         image = new ImageIcon(file).getImage();
         setSize();
-        addMouseListener(new MouseDomino(this, player));
+        addMouseListener(new MouseDominoHand(this, player));
     }
 
     public void setPlayer(Player player) {
         this.player = player;
-        addMouseListener(new MouseDomino(this, player));
+        
     }
 
     private void setSize() {

@@ -43,6 +43,7 @@ public class RoundLogic {
     }
 
     public void repaint() {
+        this.screen.pack();
         this.screen.repaint();
     }
 

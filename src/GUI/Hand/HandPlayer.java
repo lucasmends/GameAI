@@ -2,6 +2,7 @@ package GUI.Hand;
 
 import GUI.Board;
 import GUI.model.Domino;
+import GUI.model.event.MouseDominoHand;
 import java.util.List;
 import logic.game.RoundLogic;
 import model.interfaces.Player;
@@ -29,6 +30,7 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
 
         for (Domino domino : dominos) {
             domino.setPlayer(this);
+            domino.addMouseListener(new MouseDominoHand(domino, this));
             add(domino);
         }
 
