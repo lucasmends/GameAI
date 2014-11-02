@@ -78,7 +78,7 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
 
     public void putOnBoard(Domino domino) {
 
-        if (Board.getInstance().putOnBoard(domino)) {
+        if (Board.getInstance().addDomino(domino)) {
             mediator.informPiecePlaced(domino.getPiece(), this);
 
             removeFromHand(domino);
