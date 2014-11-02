@@ -58,7 +58,7 @@ public class MouseDominoBoard implements MouseListener {
             dominos[other].setActive(false);
             dominos[other].removeMouseListener(dominos[other].getMouseListeners()[0]);
 
-            dominos[self].removeMouseListener(dominos[self].getMouseListeners()[0]);
+            dominos[self].removeMouseListener(this);
         }
     }
 

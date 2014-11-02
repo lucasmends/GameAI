@@ -12,6 +12,7 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JPanel;
+import logic.AI.PlayerAI;
 import logic.game.RoundLogic;
 import model.interfaces.Piece;
 
@@ -86,6 +87,10 @@ public class Board extends JPanel {
         MouseListener[] listeners = domino.getMouseListeners();
         if (listeners != null) {
             domino.removeMouseListener(domino.getMouseListeners()[0]);
+        }
+        if(domino.getPlayer() instanceof PlayerAI){
+            String file = new StringBuilder("/Resources/").append(domino.getPiece().getFileName()).toString();
+            domino.changeImage(file);
         }
         add(domino);
 

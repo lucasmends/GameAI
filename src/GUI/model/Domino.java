@@ -48,6 +48,17 @@ public final class Domino extends JPanel{
         
     }
 
+    public void changeImage(String file){
+        image = new ImageIcon(file).getImage();
+        setSize();
+        repaint();
+    }
+    
+    public Player getPlayer()
+    {
+        return this.player;
+    }
+    
     private void setSize() {
         Dimension d = new Dimension();
         d.width = image.getWidth(null);

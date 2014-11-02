@@ -30,7 +30,7 @@ public abstract class PlayerAI implements Player {
 
     public PlayerAI(Hand hand, boolean upDirection) {
         this.hand = hand;
-        this.handGUI = new GUI.Hand.HandPlayerAI(hand, 0, upDirection);
+        this.handGUI = new GUI.Hand.HandPlayerAI(hand, 0, upDirection, this);
         this.point = 0;
         for (int i = 0; i < hand.qtdHand(); i++) {
             Piece piece = (Piece) hand.show(i);
