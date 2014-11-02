@@ -14,6 +14,7 @@ import logic.game.MediatorGame;
 import model.interfaces.Player;
 import model.interfaces.Hand;
 import jpl.Query;
+import logic.game.RoundLogic;
 import model.interfaces.Piece;
 
 /**
@@ -48,7 +49,6 @@ public abstract class PlayerAI implements Player{
         Piece pecaPilha = mediator.takeStack();
         if(pecaPilha != null){
             //Colocar a logica em prolog para a pilha
-            ;
             this.point += pecaPilha.getPoint();
             hand.add(pecaPilha);
             handGUI.addDomino(pecaPilha);
@@ -59,7 +59,12 @@ public abstract class PlayerAI implements Player{
 
 
     @Override
-    public abstract void doMove();
+    public void doMove(){
+        Piece piece = putOnBoard();
+	handGUI.remove(piece);
+        //mediator.informPiecePlaced(putOnBoard(), this);
+        RoundLogic.getInstance().nextPlayerTurn();
+    }
 
     @Override
     public Hand<Piece> showHand() {

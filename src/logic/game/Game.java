@@ -93,4 +93,9 @@ public class Game implements MediatorGame {
 	return Board.getInstance().sidesPossible();
     }
 
+    @Override
+    public int getNumberOfPlayers() {
+	return players.size();
+    }
+
 }

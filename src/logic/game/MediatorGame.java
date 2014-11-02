@@ -22,4 +22,5 @@ public interface MediatorGame {
     public void informPiecePlaced(Piece piece, Player player);
     public int[] checkPiecesRemainig(Player player);
     public int[] checkFreeSlots();
+    public int getNumberOfPlayers();
 }
