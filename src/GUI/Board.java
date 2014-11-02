@@ -100,8 +100,7 @@ public class Board extends JPanel {
     
     public List<Domino> dominosPlaced(){
         ArrayList<Domino> list = new ArrayList<>(dominos.size());
-        for(Domino domino: dominos)
-            list.add(domino);
+        list.addAll(dominos);
         
         return list;
     }
