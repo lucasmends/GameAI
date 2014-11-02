@@ -53,13 +53,21 @@ public abstract class HandGUI extends JPanel {
         }
     }
 
-    protected void removeFromHand(Domino domino) {
+    protected void removeFromHand(int index) {
+        Domino domino = dominos.get(index);
+        remove(domino);
+        dominos.remove(index);
+        revalidate();
+        RoundLogic.getInstance().repaint();
+    }
+
+    protected void removeFromHand(Domino domino){
         remove(domino);
         dominos.remove(domino);
         revalidate();
         RoundLogic.getInstance().repaint();
     }
-
+    
     public abstract void addDomino(Piece piece);
 
 }
