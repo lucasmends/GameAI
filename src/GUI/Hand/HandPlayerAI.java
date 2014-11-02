@@ -9,6 +9,7 @@ import GUI.model.Domino;
 import java.util.List;
 import model.interfaces.Hand;;
 import model.interfaces.Piece;
+import model.interfaces.Player;
 
 /**
  *
@@ -19,7 +20,7 @@ public class HandPlayerAI extends GUI.model.HandGUI{
     private final double angleOrientation;
     
     
-    public HandPlayerAI(Hand<Piece> hand, double angleOrientation, boolean upDirection){
+    public HandPlayerAI(Hand<Piece> hand, double angleOrientation, boolean upDirection, Player player){
         super(hand);
         this.angleOrientation = angleOrientation;
         
@@ -29,6 +30,7 @@ public class HandPlayerAI extends GUI.model.HandGUI{
             setLayout(new java.awt.GridLayout(0, 2));
         
         for(Domino domino: dominos){
+            domino.setPlayer(player);
             setOrientation(domino);
             add(domino);
         }

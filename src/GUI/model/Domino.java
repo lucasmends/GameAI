@@ -40,7 +40,7 @@ public final class Domino extends JPanel{
         this.active = false;
         image = new ImageIcon(file).getImage();
         setSize();
-        addMouseListener(new MouseDominoHand(this, player));
+        //addMouseListener(new MouseDominoHand(this, player));
     }
 
     public void setPlayer(Player player) {
@@ -48,6 +48,17 @@ public final class Domino extends JPanel{
         
     }
 
+    public void changeImage(String file){
+        image = new ImageIcon(file).getImage();
+        setSize();
+        repaint();
+    }
+    
+    public Player getPlayer()
+    {
+        return this.player;
+    }
+    
     private void setSize() {
         Dimension d = new Dimension();
         d.width = image.getWidth(null);
