@@ -6,9 +6,13 @@
 package logic.AI;
 
 import GUI.Board;
+import GUI.model.Domino;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import jpl.Query;
 import jpl.Term;
+import jpl.Util;
 import jpl.Variable;
 import logic.game.Game;
 import logic.game.RoundLogic;
@@ -32,9 +36,12 @@ public class SmartAI extends PlayerAI{
         Variable pecaVar = new Variable("P");
 	boolean possiblePlay = true;
 	int[] sides = Board.getInstance().sidesPossible();
-	Query movimento; 
-	// ALGO AQUI PARA COLOCAR AS PEÇAS QUE AINDA NÃO FORAM JOGADAS
-	Term listaInimigos = null;
+	Query movimento;
+	List<Term> pecasJogadas = new ArrayList<>();
+	for (Domino d: Board.getInstance().dominosPlaced()) {
+	    pecasJogadas.add(d.getPiece().getTerm());
+	}
+	Term listaJogadas = Util.termArrayToList((Term[])pecasJogadas.toArray());
 	
 	int menormao = 8;
 	for (Player p: Game.getInstance().getPlayers()) {
@@ -45,7 +52,7 @@ public class SmartAI extends PlayerAI{
 	}
 	
 	while (possiblePlay) {
-	    movimento = new Query("smart", new Term[]{hand.getTerm(), listaInimigos, new jpl.Integer(sides[0]), new jpl.Integer(sides[1]), new jpl.Integer(menormao), new jpl.Integer(Game.getInstance().getNumberOfPlayers()), pecaVar});
+	    movimento = new Query("smart", new Term[]{hand.getTerm(), listaJogadas, new jpl.Integer(sides[0]), new jpl.Integer(sides[1]), new jpl.Integer(menormao), new jpl.Integer(Game.getInstance().getNumberOfPlayers()), pecaVar});
 	
 	    if (movimento.hasSolution()) {
 	        Hashtable resposta = movimento.oneSolution();

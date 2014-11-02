@@ -5,8 +5,8 @@ concat([A|L1], L2, LF) :- concat(L1, [A|L2], LF).
 
 % TODAS AS PEÇAS AINDA NÃO PERTENCEM A NINGUÉM
 
-iniciar_pecas(L) :- random_permutation(
-	[peca(0,0),
+lista_pecas(L) :- L is
+        [peca(0,0),
 	peca(0,1),
 	peca(0,2),
 	peca(0,3),
@@ -33,7 +33,9 @@ iniciar_pecas(L) :- random_permutation(
 	peca(4,6),
 	peca(5,5),
 	peca(5,6),
-	peca(6,6)], L).
+	peca(6,6)].
+
+iniciar_pecas(L) :- listar_pecas(L1), random_permutation(L1, L).
 
 % VERIFICAR SE UMA PEÇA É ENCAIXÁVEL
 
@@ -66,7 +68,9 @@ dumb(Lista, Esq, Dir, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, _),
 
 smart(Lista, _, Esq, Dir, _, _, _) :- preparar(Lista, Esq, Dir, [], _), fail, !.
 
-smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :- 
+smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :-
+	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
+	subtract(Todas, Outras, Inimigas)
 	preparar(Lista, Esq, Dir, ListaInicial, P1),
 	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
 	P1<MelhorInimigo, !,
@@ -74,7 +78,9 @@ smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :-
 	maior(ListaFinal, _, peca(C, D)),
 	preparar_peca(peca(C, D), peca(A, B)).
 
-smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :- 
+smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :- 
+	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
+	subtract(Todas, Outras, Inimigas)
 	preparar(Lista, Esq, Dir, ListaInicial, P1),
 	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
 	P1 == MelhorInimigo, maybe, !,
@@ -82,7 +88,9 @@ smart(Lista, Inimigas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :-
 	maior(ListaFinal, _, peca(C, D)),
 	preparar_peca(peca(C, D), peca(A, B)).
 
-smart(Lista, Inimigas, Esq, Dir, _, _, peca(A, B)) :- 
+smart(Lista, Jogadas, Esq, Dir, _, _, peca(A, B)) :- 
+	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
+	subtract(Todas, Outras, Inimigas)
 	preparar(Lista, Esq, Dir, ListaInicial, _),
 	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
 	evitar(ListaInicial, [], PecasInimigas, ListaFinal),
