@@ -139,9 +139,8 @@ public class InitScreen extends javax.swing.JDialog {
     }//GEN-LAST:event_qtdJogadoresBoxActionPerformed
 
     private void OKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKActionPerformed
-        new Bootstrap((Integer) this.qtdJogadoresBox.getSelectedItem(), (Integer) this.qtdAIsBox.getSelectedItem() );
-        
         this.dispose();
+        new Bootstrap((Integer) this.qtdJogadoresBox.getSelectedItem(), (Integer) this.qtdAIsBox.getSelectedItem() );       
     }//GEN-LAST:event_OKActionPerformed
 
     private void SairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SairActionPerformed

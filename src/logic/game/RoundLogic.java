@@ -38,7 +38,7 @@ public class RoundLogic {
     }
 
     public void setBoard(GameScreen board) {
-        this.screen = board;
+        this.screen = board;      
         players.get(actualPlayer).doMove();
     }
 
