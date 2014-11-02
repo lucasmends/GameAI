@@ -60,13 +60,15 @@ preparar([_|Pecas], Esq, Dir, Possiveis, P) :- preparar(Pecas, Esq, Dir, Possive
 
 % AI BURRA: tudo no sort
 
-dumb(Lista, Esq, Dir, _) :- preparar(Lista, Esq, Dir, [], 0), !, fail.
+dumb(Lista, Esq, Dir, _) :- preparar(Lista, Esq, Dir, _, P), P == 0, !, fail.
 
-dumb(Lista, Esq, Dir, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, _), random_permutation(ListaInicial, [[_, peca(A, B)]|_]).
+dumb(Lista, Esq, Dir, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, _),
+	random_permutation(ListaInicial, [peca(C,D)|L]),
+	preparar_peca(peca(C, D), peca(A, B)).
 
 % AI ESPERTA
 
-smart(Lista, _, Esq, Dir, _, _, _) :- preparar(Lista, Esq, Dir, [], 0), !, fail.
+smart(Lista, _, Esq, Dir, _, _, _) :- preparar(Lista, Esq, Dir, _, 0), P == 0, !, fail.
 
 smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :-
 	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
@@ -154,5 +156,5 @@ maior([[peca(A, B), P]|_], P, peca(A, B)).
 
 % PREPARAR PEÇA PARA JOGAR DE VOLTA AO JAVA
 
-peca_pronta(peca(A, B), peca(A, B)) :- A =< B, !.
-peca_pronta(peca(A, B), peca(B, A)).
+preparar_peca(peca(A, B), peca(A, B)) :- A =< B, !.
+preparar_peca(peca(A, B), peca(B, A)).
