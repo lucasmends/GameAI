@@ -5,7 +5,7 @@ concat([A|L1], L2, LF) :- concat(L1, [A|L2], LF).
 
 % TODAS AS PEÇAS AINDA NÃO PERTENCEM A NINGUÉM
 
-lista_pecas(L) :- L is
+listar_pecas(L) :- L =
         [peca(0,0),
 	peca(0,1),
 	peca(0,2),
@@ -70,7 +70,7 @@ smart(Lista, _, Esq, Dir, _, _, _) :- preparar(Lista, Esq, Dir, [], _), fail, !.
 
 smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :-
 	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
-	subtract(Todas, Outras, Inimigas)
+	subtract(Todas, Outras, Inimigas),
 	preparar(Lista, Esq, Dir, ListaInicial, P1),
 	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
 	P1<MelhorInimigo, !,
@@ -80,7 +80,7 @@ smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :-
 
 smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :- 
 	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
-	subtract(Todas, Outras, Inimigas)
+	subtract(Todas, Outras, Inimigas),
 	preparar(Lista, Esq, Dir, ListaInicial, P1),
 	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
 	P1 == MelhorInimigo, maybe, !,
@@ -90,7 +90,7 @@ smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :-
 
 smart(Lista, Jogadas, Esq, Dir, _, _, peca(A, B)) :- 
 	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
-	subtract(Todas, Outras, Inimigas)
+	subtract(Todas, Outras, Inimigas),
 	preparar(Lista, Esq, Dir, ListaInicial, _),
 	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
 	evitar(ListaInicial, [], PecasInimigas, ListaFinal),
@@ -105,10 +105,10 @@ combo([peca(A, B)|L], LA, PecasInimigas, Nini, [[peca(A, B), P]|L2]) :-
     concat(L, LA, LC),
     contar_peca(LC, Livre, peca(A, B), [], PecasInimigas, Nini, P).
     
-contar_peca([], peca(A, B), _, _, 0, 0) :- !.
-contar_peca([peca(B, C)|LC], peca(A, B), _, _, 0, P) :- !,
+contar_peca([], peca(_, _), _, _, 0, 0) :- !.
+contar_peca([peca(B, _)|LC], peca(A, B), _, _, 0, P) :- !,
     contar_peca(LC, peca(A, B), _, _, 0, P1), P is P1+1.
-contar_peca([peca(C, B)|LC], peca(A, B), _, _, 0, P) :- !,
+contar_peca([peca(_, B)|LC], peca(A, B), _, _, 0, P) :- !,
     contar_peca(LC, peca(A, B), _, _, 0, P1), P is P1+1.
 contar_peca([peca(_, _)|LC], peca(A, B), _, _, P) :- !,
     contar_peca(LC, peca(A, B), _, _, 0, P).
