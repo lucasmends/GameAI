@@ -96,10 +96,10 @@ public class Board extends JPanel {
             return false;
         }
         if (side == LEFT) {
-            addDomino(domino, LEFT);
+            addDominoBoard(domino, LEFT);
             dominos.addFirst(domino);
         } else {
-            addDomino(domino, RIGHT);
+            addDominoBoard(domino, RIGHT);
             dominos.addLast(domino);
         }
         return true;
@@ -107,14 +107,36 @@ public class Board extends JPanel {
 
     private void addDominoBoard(Domino domino, int side) {
 
+        if (domino.getPlayer() instanceof PlayerAI) {
+            String file = new StringBuilder("/Resources/").append(domino.getPiece().getFileName()).toString();
+            domino.changeImage(file);
+        }
+        domino.rotate(90);
+        
         java.awt.GridBagConstraints gridBagConstraints;
         gridBagConstraints = new java.awt.GridBagConstraints();
 
         if (side == LEFT) {
+            if (left[X] - 1 < 0) {
+                ++left[X];
+                ++left[Y];
+                domino.rotate(-90);
+            }
+            if (domino.getPiece().values()[1] == ends[LEFT]) {
+                domino.rotate(180);
+            }
             gridBagConstraints.gridx = --left[X];
             gridBagConstraints.gridy = left[Y];
         } else {
-            gridBagConstraints.gridx = --right[X];
+            if (right[X] + 1 > 8) {
+                --right[X];
+                ++right[Y];
+                domino.rotate(-90);
+            }
+            if (domino.getPiece().values()[1] == ends[RIGHT]) {
+                domino.rotate(180);
+            }
+            gridBagConstraints.gridx = ++right[X];
             gridBagConstraints.gridy = right[Y];
         }
 
@@ -124,16 +146,6 @@ public class Board extends JPanel {
         MouseListener[] listeners = domino.getMouseListeners();
         if (listeners != null) {
             domino.removeMouseListener(domino.getMouseListeners()[0]);
-        }
-        if (domino.getPlayer() instanceof PlayerAI) {
-            String file = new StringBuilder("/Resources/").append(domino.getPiece().getFileName()).toString();
-            domino.changeImage(file);
-        }
-
-        if (side == LEFT) {
-            dominos.addFirst(domino);
-        } else {
-            dominos.addLast(domino);
         }
 
         RoundLogic.getInstance().repaint();

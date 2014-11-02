@@ -43,14 +43,20 @@ public class Testet extends javax.swing.JFrame {
             gridBagConstraints.gridx = i;
             gridBagConstraints.gridy = 0;
             Domino teste = new Domino(getClass().getResource("/Resources/r-domino0-1.png").getFile(), null);
-            if(i != 3)
+            //if (i != 3) {
                 teste.rotate(90);
+            //}
             add(teste, gridBagConstraints);
         }
-        
-        
 
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        Domino teste = new Domino(getClass().getResource("/Resources/r-domino0-1.png").getFile(), null);
 
+        //teste.rotate(90);
+        add(teste, gridBagConstraints);
+        
         pack();
 
     }// </editor-fold>                        

@@ -52,9 +52,9 @@ public class HandPlayerAI extends GUI.model.HandGUI{
         
     }
     
-    public synchronized void remove(Piece piece){
+    public void remove(Piece piece){
         for(int i = 0; i < dominos.size(); i++){
-            if(dominos.get(i).getPiece().equals(piece)){
+            if(dominos.get(i).getPiece().values()[0] == piece.values()[0] && dominos.get(i).getPiece().values()[1] == piece.values()[1]){
                 removeFromHand(i);
                 break;
             }
