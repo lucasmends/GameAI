@@ -45,6 +45,8 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     public void addDomino(Piece piece) {
         this.hand.add(piece);
         Domino domino = piecesToDomino(piece, false);
+        domino.setPlayer(this);
+        domino.addMouseListener(new MouseDominoHand(domino, this));
         this.dominos.add(domino);
         add(domino);
     }
@@ -62,20 +64,17 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
-    @Override
-    public boolean takeFromStack() {
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException ex) {
-            System.err.println(ex.getMessage());
-        }
+    public void takeFromStackHuman() {
+
         Piece piece = mediator.takeStack();
         if (piece != null) {
             this.point += piece.getPoint();
             addDomino(piece);
-            return true;
+            doMove();
+        } else {
+            setOff();
+            RoundLogic.getInstance().nextPlayerTurn();
         }
-        return false;
     }
 
     @Override
@@ -100,6 +99,10 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     }
 
     private void update(Domino domino) {
+        if (firstPiece > 0) {
+            firstPiece = -1;
+        }
+
         mediator.informPiecePlaced(domino.getPiece(), this);
 
         removeFromHand(domino);
@@ -107,7 +110,7 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
         hand.remove(domino.getPiece());
         this.point -= domino.getPiece().getPoint();
 
-        setActive(false);
+        setOff();
         RoundLogic.getInstance().nextPlayerTurn();
     }
 
@@ -115,24 +118,18 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     public void doMove() {
         if (firstPiece >= 0) {
             putOnBoard(dominos.get(firstPiece));
-            firstPiece = -1;
         } else {
             int count = 0;
-            for (int i = 0; i < dominos.size(); i++) {
-                if (Board.getInstance().checkPossible(dominos.get(i))) {
+            for (Domino domino : dominos) {
+                if (Board.getInstance().checkPossible(domino)) {
                     count++;
                 }
             }
             if (count > 0) {
-                setActive(true);
+                setActive();
             } else {
                 //timer e mensagem para pegar do stack
-
-                if (takeFromStack()) {
-                    doMove();
-                }
-                //timer e mensagem
-                RoundLogic.getInstance().nextPlayerTurn();
+                takeFromStackHuman();
             }
         }
     }
@@ -152,10 +149,18 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
         return showHand().qtdHand();
     }
 
-    private void setActive(boolean state) {
+    private void setOff() {
+        for (Domino domino : dominos) {
+            domino.setActive(false);
+        }
+    }
+
+    private void setActive() {
         for (Domino domino : dominos) {
             if (Board.getInstance().checkPossible(domino)) {
-                domino.setActive(state);
+                domino.setActive(true);
+            } else {
+                domino.setActive(false);
             }
         }
     }
@@ -174,5 +179,10 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     public List<Domino> getDominos() {
         return dominos;
 
+    }
+
+    @Override
+    public boolean takeFromStack() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

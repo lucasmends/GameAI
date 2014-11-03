@@ -30,7 +30,7 @@ public class InitScreen extends javax.swing.JDialog {
                     }
                 });*/
         
-        this.jPanel3.add( new Domino( getClass().getResource("/Resources/domino0-0.png").getFile(), null) );
+        //this.jPanel3.add( new Domino( getClass().getResource("/Resources/domino0-0.png").getFile(), null) );
     }
 
     /**

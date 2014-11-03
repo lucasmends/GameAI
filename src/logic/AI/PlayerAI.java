@@ -49,7 +49,7 @@ public abstract class PlayerAI implements Player {
             //Colocar a logica em prolog para a pilha
             this.point += pecaPilha.getPoint();
             hand.add(pecaPilha);
-            handGUI.addDomino(pecaPilha);
+            handGUI.addDomino(pecaPilha, this);
             return true;
         }
         return false;

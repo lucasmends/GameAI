@@ -5,13 +5,13 @@
  */
 package GUI.model;
 
-import GUI.model.event.MouseDominoHand;
 import model.interfaces.Player;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import javax.swing.ImageIcon;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import model.interfaces.Piece;
 
@@ -19,46 +19,72 @@ import model.interfaces.Piece;
  *
  * @author lucas
  */
-public final class Domino extends JPanel{
+public final class Domino extends JPanel {
 
     private Image image;
     private final Piece piece;
     public Player player;
     private boolean active;
 
-    public Domino(String file, Piece piece) {
+    public Domino(Piece piece, boolean back) {
+        if (back) {
+            //image = new ImageIcon(getClass().getResource("/Resources/r-back.png").getFile()).getImage();
+            try {
+                image = ImageIO.read(new File(getClass().getResource("/Resources/r-back.png").getFile()));
+            } catch (Exception e) {
+                System.out.println("Erro");
+            }
+        } else {
+            String file = getClass().getResource(new StringBuilder("/Resources/").append(piece.getFileName()).toString()).getFile();
+            try {
+                image = ImageIO.read(new File(file));
+            } catch (Exception e) {
+                System.out.println("Erro");
+            }
+        }
+
         this.piece = piece;
         this.active = false;
-        image = new ImageIcon(file).getImage();
+        //image = new ImageIcon(file).getImage();
         setSize();
     }
 
-    public Domino(String file, Piece piece, Player player) {
+    /*public Domino(Piece piece, Player player) {
+     String file = new StringBuilder("/Resources/").append(piece.getFileName()).toString();
+     trueImage = new ImageIcon(file).getImage();
 
-        this.player = player;
-        this.piece = piece;
-        this.active = false;
-        image = new ImageIcon(file).getImage();
-        setSize();
-        //addMouseListener(new MouseDominoHand(this, player));
-    }
-
+     if (player instanceof PlayerAI) {
+     image = new ImageIcon(getClass().getResource("/Resources/r-back.png").getFile()).getImage();
+     } else {
+     image = trueImage;
+     }
+     this.piece = piece;
+     this.active = false;
+     image = new ImageIcon(file).getImage();
+     setSize();
+     }*/
+    
     public void setPlayer(Player player) {
         this.player = player;
-        
+
     }
 
-    public void changeImage(String file){
-        image = new ImageIcon(file).getImage();
+    public void changeImage() {
+        String file = getClass().getResource(new StringBuilder("/Resources/").append(piece.getFileName()).toString()).getFile();
+        try {
+            image = ImageIO.read(new File(file));
+        } catch (Exception e) {
+            System.out.println("Erro");
+        }
         setSize();
         repaint();
+        //repaint(100);
     }
-    
-    public Player getPlayer()
-    {
+
+    public Player getPlayer() {
         return this.player;
     }
-    
+
     private void setSize() {
         Dimension d = new Dimension();
         d.width = image.getWidth(null);
@@ -103,9 +129,9 @@ public final class Domino extends JPanel{
     public Piece getPiece() {
         return this.piece;
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return piece.getFileName().substring(2, 11);
     }
 }

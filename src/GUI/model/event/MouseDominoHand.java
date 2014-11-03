@@ -39,6 +39,7 @@ public class MouseDominoHand implements MouseListener {
             if (!clicked) {
                 clicked = true;
                 if (Board.getInstance().dominoPossibilities(domino) < 2) {
+                    //System.out.println(me.toString());
                     HandPlayer human = (HandPlayer) player;
                     human.putOnBoard(domino);
                 } else {
@@ -46,9 +47,12 @@ public class MouseDominoHand implements MouseListener {
                         HandPlayer human = (HandPlayer) player;
                         human.putOnBoard(domino);
                     } else {
-                        Domino[] both = Board.getInstance().corner();
+                        Domino[] both = new Domino[3];
+                        both[0] = Board.getInstance().corner()[0];
+                        both[1] = Board.getInstance().corner()[1];
+                        both[2] = domino;
                         //see if it was not selected before
-                        if (both[0].getMouseListeners() != null) {
+                        if (both[0].getMouseListeners() != null && both[0].getMouseListeners().length > 0) {
                             both[0].removeMouseListener(both[0].getMouseListeners()[0]);
                             both[1].removeMouseListener(both[1].getMouseListeners()[0]);
                         }
@@ -62,9 +66,11 @@ public class MouseDominoHand implements MouseListener {
                 clicked = false;
                 Domino[] both = Board.getInstance().corner();
                 both[0].setActive(false);
-                both[0].removeMouseListener(both[0].getMouseListeners()[0]);
                 both[1].setActive(false);
-                both[1].removeMouseListener(both[1].getMouseListeners()[0]);
+                if (both[0].getMouseListeners() != null && both[0].getMouseListeners().length > 0) {
+                    both[0].removeMouseListener(both[0].getMouseListeners()[0]);
+                    both[1].removeMouseListener(both[1].getMouseListeners()[0]);
+                }
             }
 
         }

@@ -29,28 +29,15 @@ public abstract class HandGUI extends JPanel {
     }
 
     protected void piecesToDomino(boolean back) {
-        if (back == false) {
-            for (int i = 0; i < hand.qtdHand(); i++) {
-                Piece piece = hand.show(i);
-                String file = new StringBuilder("/Resources/").append(piece.getFileName()).toString();
-                dominos.add(new Domino(getClass().getResource(file).getFile(), piece));
-            }
-        } else {
-            for (int i = 0; i < hand.qtdHand(); i++) {
-                Piece piece = hand.show(i);
-                dominos.add(new Domino(getClass().getResource("/Resources/r-back.png").getFile(), piece));
-            }
+        for (int i = 0; i < hand.qtdHand(); i++) {
+            Piece piece = hand.show(i);
+            dominos.add(new Domino(piece, back));
         }
 
     }
 
     protected Domino piecesToDomino(Piece piece, boolean back) {
-        if (back == false) {
-            String file = new StringBuilder("/Resources/").append(piece.getFileName()).toString();
-            return new Domino(getClass().getResource(file).getFile(), piece);
-        } else {
-            return new Domino(getClass().getResource("/Resources/r-back.png").getFile(), piece);
-        }
+        return new Domino(piece, back);
     }
 
     protected void removeFromHand(int index) {
@@ -61,13 +48,13 @@ public abstract class HandGUI extends JPanel {
         RoundLogic.getInstance().repaint();
     }
 
-    protected void removeFromHand(Domino domino){
+    protected void removeFromHand(Domino domino) {
         remove(domino);
         dominos.remove(domino);
         revalidate();
         RoundLogic.getInstance().repaint();
     }
-    
+
     public abstract void addDomino(Piece piece);
 
 }

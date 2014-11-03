@@ -6,14 +6,17 @@
 package GUI;
 
 import GUI.model.Domino;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JPanel;
-import logic.AI.PlayerAI;
+import javax.swing.JScrollPane;
 import logic.game.RoundLogic;
 import model.interfaces.Piece;
 
@@ -26,6 +29,13 @@ public class Board extends JPanel {
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
 
+    private int orientationLeft = -1;
+    private int orientationRight = 1;
+    private int countLeft = 0;
+    private int countRight = 0;
+    private int maxLeft = 6;
+    private int maxRight = 6;
+
     private final int X = 0;
     private final int Y = 1;
 
@@ -36,7 +46,10 @@ public class Board extends JPanel {
     private final int left[];
     private final int right[];
 
+    //private final JPanel board;
+
     private Board() {
+        //board = new JPanel(new java.awt.GridLayout());
         dominos = new LinkedList<>();
         ends = new int[2];
         left = new int[2];
@@ -46,6 +59,7 @@ public class Board extends JPanel {
         right[X] = 4;
         right[Y] = 0;
 
+        //board.setPreferredSize(new Dimension(820, 210));
         initComponents();
     }
 
@@ -54,9 +68,12 @@ public class Board extends JPanel {
     }
 
     private void initComponents() {
-        setLayout(new java.awt.GridBagLayout());
-        setMinimumSize(new Dimension(460, 280));
-        setPreferredSize(new Dimension(640, 360));
+
+        //setViewportView(board);
+        setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
+        //setLayout(new java.awt.GridBagLayout());
+        setMinimumSize(new Dimension(1040, 560));
+        setPreferredSize(new Dimension(1040, 560));
     }
 
     public boolean addDomino(Domino domino) {
@@ -107,44 +124,37 @@ public class Board extends JPanel {
 
     private void addDominoBoard(Domino domino, int side) {
 
-        if (domino.getPlayer() instanceof PlayerAI) {
-            String file = new StringBuilder("/Resources/").append(domino.getPiece().getFileName()).toString();
-            domino.changeImage(file);
-        }
+        //if (domino.getPlayer() instanceof PlayerAI) {
+        domino.changeImage();
+        //}
         domino.rotate(90);
-        
+
         java.awt.GridBagConstraints gridBagConstraints;
         gridBagConstraints = new java.awt.GridBagConstraints();
 
         if (side == LEFT) {
-            if (left[X] - 1 < 0) {
-                ++left[X];
-                ++left[Y];
-                domino.rotate(-90);
-            }
+            setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
             if (domino.getPiece().values()[1] == ends[LEFT]) {
-                domino.rotate(180);
+                ends[LEFT] = domino.getPiece().values()[0];
+                    domino.rotate(180);
+            } else {
+                ends[LEFT] = domino.getPiece().values()[1];
             }
-            gridBagConstraints.gridx = --left[X];
-            gridBagConstraints.gridy = left[Y];
         } else {
-            if (right[X] + 1 > 8) {
-                --right[X];
-                ++right[Y];
-                domino.rotate(-90);
+            setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+            if (domino.getPiece().values()[0] == ends[RIGHT]) {
+                ends[RIGHT] = domino.getPiece().values()[1];
+                    domino.rotate(180);
+            } else {
+                ends[RIGHT] = domino.getPiece().values()[0];
             }
-            if (domino.getPiece().values()[1] == ends[RIGHT]) {
-                domino.rotate(180);
-            }
-            gridBagConstraints.gridx = ++right[X];
-            gridBagConstraints.gridy = right[Y];
         }
 
-        add(domino, gridBagConstraints);
+        add(domino);
 
         domino.setActive(false);
         MouseListener[] listeners = domino.getMouseListeners();
-        if (listeners != null) {
+        if (listeners != null && listeners.length > 0) {
             domino.removeMouseListener(domino.getMouseListeners()[0]);
         }
 

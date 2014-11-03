@@ -38,7 +38,7 @@ public class Testet extends javax.swing.JFrame {
 
         java.awt.GridBagConstraints gridBagConstraints;
 
-        for (int i = 0; i < 9; i++) {
+      /*  for (int i = 0; i < 9; i++) {
             gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.gridx = i;
             gridBagConstraints.gridy = 0;
@@ -55,7 +55,7 @@ public class Testet extends javax.swing.JFrame {
         Domino teste = new Domino(getClass().getResource("/Resources/r-domino0-1.png").getFile(), null);
 
         //teste.rotate(90);
-        add(teste, gridBagConstraints);
+        add(teste, gridBagConstraints);*/
         
         pack();
 

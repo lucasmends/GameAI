@@ -6,6 +6,7 @@
 package GUI;
 
 import GUI.model.HandGUI;
+import java.awt.GridBagConstraints;
 import java.util.List;
 
 /**
@@ -26,6 +27,8 @@ public class GameScreen extends javax.swing.JFrame {
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
 
+        gridBagConstraints.fill = GridBagConstraints.BOTH;
+        
         getContentPane().add(Board.getInstance(), gridBagConstraints);
         pack();
     }

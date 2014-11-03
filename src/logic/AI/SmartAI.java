@@ -37,11 +37,12 @@ public class SmartAI extends PlayerAI{
 	boolean possiblePlay = true;
 	int[] sides = Board.getInstance().sidesPossible();
 	Query movimento;
-	List<Term> pecasJogadas = new ArrayList<>();
-	for (Domino d: Board.getInstance().dominosPlaced()) {
-	    pecasJogadas.add(d.getPiece().getTerm());
+        List<Domino> dominosPlaced = Board.getInstance().dominosPlaced();
+	Term[] pecasJogadas = new Term[dominosPlaced.size()];
+	for (int i = 0; i < dominosPlaced.size(); i++) {
+	    pecasJogadas[i] = dominosPlaced.get(i).getPiece().getTerm();
 	}
-	Term listaJogadas = Util.termArrayToList((Term[])pecasJogadas.toArray());
+	Term listaJogadas = Util.termArrayToList(pecasJogadas);
 	
 	int menormao = 8;
 	for (Player p: Game.getInstance().getPlayers()) {

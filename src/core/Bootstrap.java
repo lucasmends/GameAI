@@ -24,6 +24,7 @@ import jpl.Term;
 import jpl.Util;
 import jpl.Variable;
 import logic.AI.DumbAI;
+import logic.AI.SmartAI;
 import model.interfaces.Piece;
 import model.ConcretePiece;
 
@@ -89,10 +90,14 @@ public class Bootstrap {
         }
         boolean upDirection = false;
         for(int i = (qtdPlayers - qtdAI); i < qtdPlayers; i++){
-            PlayerAI AI = new DumbAI(handPlayer[i], upDirection);  
+            PlayerAI AI = new SmartAI(handPlayer[i], upDirection);  
             AIsGUIs.add(AI.getHand());
             Game.getInstance().addPlayer(AI);
-            
+            //Player other = new HandPlayer(handPlayer[i]);
+            //ArrayList<HandGUI> l = new ArrayList<>();
+            //l.add((HandGUI) other);
+            //boardGame.addAIPlayer(l);
+            //Game.getInstance().addPlayer(other);            
             upDirection = true;
         }
         

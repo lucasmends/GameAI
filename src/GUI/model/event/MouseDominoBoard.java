@@ -19,6 +19,7 @@ public class MouseDominoBoard implements MouseListener {
 
     private final int self;
     private final int other;
+    private final int play = 2;
 
     private final Domino[] dominos;
     private final int side;
@@ -51,14 +52,13 @@ public class MouseDominoBoard implements MouseListener {
     public void mouseReleased(MouseEvent e) {
         if (dominos[self].isActive()) {
             HandPlayer human = (HandPlayer) player;
-            dominos[self].setActive(false);
-
-            human.putOnBoard(dominos[self], side);
+            //dominos[self].setActive(false);           
 
             dominos[other].setActive(false);
             dominos[other].removeMouseListener(dominos[other].getMouseListeners()[0]);
 
-            dominos[self].removeMouseListener(this);
+            dominos[self].setActive(false);
+            human.putOnBoard(dominos[play], side);
         }
     }
 

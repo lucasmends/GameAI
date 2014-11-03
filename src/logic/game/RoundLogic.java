@@ -43,7 +43,7 @@ public class RoundLogic {
     }
 
     public void repaint() {
-        this.screen.pack();
+        this.screen.revalidate();
         this.screen.repaint();
     }
 
@@ -54,6 +54,7 @@ public class RoundLogic {
         } else {
             if (movePossible()) {
                 //o jogador ganhou
+                System.out.println("Ganhou");
                 
             }else{
                
@@ -65,6 +66,7 @@ public class RoundLogic {
                         winnerPlayer = i;
                     }
                 }
+                System.out.println("Ganhou " + winnerPlayer);
                 //o jogador winnerPlayer ganhou
             }
         }

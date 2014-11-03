@@ -5,9 +5,11 @@
  */
 package GUI.Hand;
 
+import GUI.Board;
 import GUI.model.Domino;
 import java.util.List;
-import model.interfaces.Hand;;
+import model.interfaces.Hand;
+;
 import model.interfaces.Piece;
 import model.interfaces.Player;
 
@@ -15,53 +17,60 @@ import model.interfaces.Player;
  *
  * @author lucas
  */
-public class HandPlayerAI extends GUI.model.HandGUI{
-    
+
+
+public class HandPlayerAI extends GUI.model.HandGUI {
+
     private final double angleOrientation;
-    
-    
-    public HandPlayerAI(Hand<Piece> hand, double angleOrientation, boolean upDirection, Player player){
+
+    public HandPlayerAI(Hand<Piece> hand, double angleOrientation, boolean upDirection, Player player) {
         super(hand);
         this.angleOrientation = angleOrientation;
-        
+
         piecesToDomino(true);
-        
-        if(upDirection)
+
+        if (upDirection) {
             setLayout(new java.awt.GridLayout(0, 2));
-        
-        for(Domino domino: dominos){
+        }
+
+        for (Domino domino : dominos) {
             domino.setPlayer(player);
             setOrientation(domino);
             add(domino);
         }
-        
+
         this.hand = null;
     }
 
-    private void setOrientation(Domino domino){
+    private void setOrientation(Domino domino) {
         domino.rotate(angleOrientation);
     }
-    
+
     @Override
     public void addDomino(Piece piece) {
-        this.hand.add(piece);
+        ;
+    }
+
+    public void addDomino(Piece piece, Player player) {
         Domino domino = piecesToDomino(piece, true);
+        domino.setPlayer(player);
         this.dominos.add(domino);
         setOrientation(domino);
         add(domino);
-        
     }
-    
-    public void remove(Piece piece){
-        for(int i = 0; i < dominos.size(); i++){
-            if(dominos.get(i).getPiece().values()[0] == piece.values()[0] && dominos.get(i).getPiece().values()[1] == piece.values()[1]){
-                removeFromHand(i);
+
+    public void remove(Piece piece) {
+        for (int i = 0; i < dominos.size(); i++) {
+            if (dominos.get(i).getPiece().values()[0] == piece.values()[0] && dominos.get(i).getPiece().values()[1] == piece.values()[1]) {
+                Board.getInstance().addDomino(dominos.get(i));
+                removeFromHand(dominos.get(i));
                 break;
             }
         }
     }
-    
-    public List<Domino> getDominos(){
+
+    public List<Domino> getDominos() {
         return dominos;
     }
+
 }
