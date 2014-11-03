@@ -63,12 +63,12 @@ preparar([_|Pecas], Esq, Dir, Possiveis, P) :- preparar(Pecas, Esq, Dir, Possive
 dumb(Lista, Esq, Dir, _) :- preparar(Lista, Esq, Dir, _, P), P == 0, !, fail.
 
 dumb(Lista, Esq, Dir, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, _),
-	random_permutation(ListaInicial, [peca(C,D)|L]),
+	random_permutation(ListaInicial, [peca(C,D)|_]),
 	preparar_peca(peca(C, D), peca(A, B)).
 
 % AI ESPERTA
 
-smart(Lista, _, Esq, Dir, _, _, _) :- preparar(Lista, Esq, Dir, _, 0), P == 0, !, fail.
+smart(Lista, _, Esq, Dir, _, _, _) :- preparar(Lista, Esq, Dir, _, P), P == 0, !, fail.
 
 smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :-
 	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
@@ -96,7 +96,7 @@ smart(Lista, Jogadas, Esq, Dir, _, _, peca(A, B)) :-
 	preparar(Lista, Esq, Dir, ListaInicial, _),
 	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
 	evitar(ListaInicial, [], PecasInimigas, ListaFinal),
-	maior(ListaFinal, _, peca(C, D), Lado),
+	maior(ListaFinal, _, peca(C, D)),
 	preparar_peca(peca(C, D), peca(A, B)).
 
 % COMBO - tenta colocar uma peça com a maior probabilide de um inimigo colocá-la e eu poder colocar de novo
@@ -105,7 +105,7 @@ combo([], _, _, _, []).
 combo([peca(A, B)|L], LA, PecasInimigas, Nini, [[peca(A, B), P]|L2]) :- 
     combo(L, [peca(A, B)|LA], PecasInimigas, Nini, L2),
     concat(L, LA, LC),
-    contar_peca(LC, Livre, peca(A, B), [], PecasInimigas, Nini, P).
+    contar_peca(LC, peca(A, B), [], PecasInimigas, Nini, P).
     
 contar_peca([], peca(_, _), _, _, 0, 0) :- !.
 contar_peca([peca(B, _)|LC], peca(A, B), _, _, 0, P) :- !,
@@ -117,12 +117,12 @@ contar_peca([peca(_, _)|LC], peca(A, B), _, _, P) :- !,
 
 contar_peca(LC, peca(A, B), PIA, [peca(B, C)|PID], Nini, P) :- !,
     concat(PIA, PID, PIF), Nini2 is Nini-1,
-    contar_peca(LC, peca(B, C), [], PIF, Nini2, P1),
-    contar_peca(LC, peca(A, B), [peca(B, C)|PIA], PID, Nini, P2), P is P1+P2.
+    contar_peca(LC, peca(A, B), [peca(B, C)|PIA], PID, Nini, P2), 
+    contar_peca(LC, peca(B, C), [], PIF, Nini2, P1), P is P1+P2.
 contar_peca(LC, peca(A, B), PIA, [peca(C, B)|PID], Nini, P) :- !,
     concat(PIA, PID, PIF), Nini2 is Nini-1,
-    contar_peca(LC, peca(C, B), [], PIF, Nini2, P1),
-    contar_peca(LC, peca(A, B), [peca(C, B)|PIA], PID, Nini, P2), P is P1+P2.
+    contar_peca(LC, peca(A, B), [peca(C, B)|PIA], PID, Nini, P2),
+    contar_peca(LC, peca(C, B), [], PIF, Nini2, P1), P is P1+P2.
 
 % EVITAR - evita que o inimigo consiga colocar sua peca
 
@@ -133,18 +133,18 @@ evitar([peca(A, B)|L], LD, ListaInimigos, [[peca(A, B), P]|ListaFinal]) :-
 
 peso_evitar(peca(A, B), MinhasPecas, [], D) :- 
     contar_decimos(peca(A, B), MinhasPecas, D).
-peso_evitar(peca(A, B), MinhasPecas, [peca(B, C)|ListaInimigos], P) :- 
+peso_evitar(peca(A, B), MinhasPecas, [peca(B, _)|ListaInimigos], P) :- 
     peso_evitar(peca(A, B), MinhasPecas, ListaInimigos, P1),
     !, P is P1-1.
-peso_evitar(peca(A, B), MinhasPecas, [peca(C, B)|ListaInimigos], P) :- 
+peso_evitar(peca(A, B), MinhasPecas, [peca(_, B)|ListaInimigos], P) :- 
     peso_evitar(peca(A, B), MinhasPecas, ListaInimigos, P1),
     !, P is P1-1.
 peso_evitar(peca(A, B), MinhasPecas, [_|MP], P) :- 
     peso_evitar(peca(A, B), MinhasPecas, MP, P).
 
 contar_decimos(peca(_, _), [], 0).
-contar_decimos(peca(A, B), [peca(B, C)|MP], D) :- !, contar_decimos(peca(A, B), MP, D1), D is D1+(1/10).
-contar_decimos(peca(A, B), [peca(C, B)|MP], D) :- !, contar_decimos(peca(A, B), MP, D1), D is D1+(1/10).
+contar_decimos(peca(A, B), [peca(B, _)|MP], D) :- !, contar_decimos(peca(A, B), MP, D1), D is D1+(1/10).
+contar_decimos(peca(A, B), [peca(_, B)|MP], D) :- !, contar_decimos(peca(A, B), MP, D1), D is D1+(1/10).
 contar_decimos(peca(A, B), [_|MP], D) :- contar_decimos(peca(A, B), MP, D).
 
 % Maior valor de uma lista dupla de valores
