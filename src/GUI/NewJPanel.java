@@ -28,8 +28,6 @@ public class NewJPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -41,22 +39,16 @@ public class NewJPanel extends javax.swing.JPanel {
                 formMouseClicked(evt);
             }
         });
-        setLayout(new java.awt.BorderLayout());
-
-        jPanel1.setLayout(new java.awt.GridLayout());
+        setLayout(new java.awt.GridLayout());
 
         jButton1.setText("jButton1");
-        jPanel1.add(jButton1);
+        add(jButton1);
 
         jButton2.setText("jButton2");
-        jPanel1.add(jButton2);
+        add(jButton2);
 
         jButton3.setText("jButton3");
-        jPanel1.add(jButton3);
-
-        jScrollPane1.setViewportView(jPanel1);
-
-        add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        add(jButton3);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
@@ -68,7 +60,5 @@ public class NewJPanel extends javax.swing.JPanel {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

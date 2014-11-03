@@ -32,7 +32,7 @@ public class SmartAI extends PlayerAI{
     }
 
     @Override
-    public Piece putOnBoard() {
+    public synchronized Piece putOnBoard() {
         Variable pecaVar = new Variable("P");
 	boolean possiblePlay = true;
 	int[] sides = Board.getInstance().sidesPossible();
@@ -58,8 +58,10 @@ public class SmartAI extends PlayerAI{
 	    if (movimento.hasSolution()) {
 	        Hashtable resposta = movimento.oneSolution();
 		Term peca = (Term)resposta.get("P");
-		return new ConcretePiece(peca);
+                //System.out.println(peca);
+		return new ConcretePiece(peca, peca.args()[0].intValue());
 	    } else {
+                System.out.println("Não teve peça.");
 		possiblePlay = this.takeFromStack();
 	    }
 	}

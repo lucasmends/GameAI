@@ -6,10 +6,9 @@
 package GUI;
 
 import GUI.model.Domino;
-import java.awt.ComponentOrientation;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -24,7 +23,7 @@ import model.interfaces.Piece;
  *
  * @author lucas
  */
-public class Board extends JPanel {
+public class Board extends JScrollPane {
 
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
@@ -39,9 +38,11 @@ public class Board extends JPanel {
     private final int left[];
     private final int right[];
 
-    //private final JPanel board;
+    private final JPanel board;
+
     private Board() {
-        //board = new JPanel(new java.awt.GridLayout());
+        super(JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        board = new JPanel(new java.awt.GridLayout());
         dominos = new LinkedList<>();
         ends = new int[2];
         left = new int[2];
@@ -61,12 +62,14 @@ public class Board extends JPanel {
 
     private void initComponents() {
 
-        //setViewportView(board);
-        setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
+        setViewportView(board);
+
         //setLayout(new java.awt.GridBagLayout());
-        //setMaximumSize(new Dimension(20024, 230));
-        setMinimumSize(new Dimension(230, 230));
-        setPreferredSize(new Dimension(230, 230));
+        board.setMaximumSize(new Dimension(100520, 80));
+        board.setLayout(new FlowLayout(FlowLayout.CENTER));
+        //setMinimumSize(new Dimension(230, 230));
+        setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        setPreferredSize(new Dimension(730, 90));
     }
 
     public boolean addDomino(Domino domino) {
@@ -78,12 +81,23 @@ public class Board extends JPanel {
             return true;
         }
         int side = -1;
-        if (domino.getPiece().values()[LEFT] == ends[LEFT] || domino.getPiece().values()[RIGHT] == ends[LEFT]) {
-            side = LEFT;
-        } else {
-            if (domino.getPiece().values()[LEFT] == ends[RIGHT] || domino.getPiece().values()[RIGHT] == ends[RIGHT]) {
-                side = RIGHT;
+        if (domino.getPiece().getPreference() < 0) {
+            if (domino.getPiece().values()[0] > domino.getPiece().values()[1]) {
+
+            } else {
+                if (domino.getPiece().values()[LEFT] == ends[LEFT] || domino.getPiece().values()[RIGHT] == ends[LEFT]) {
+                    side = LEFT;
+                } else {
+                    if (domino.getPiece().values()[LEFT] == ends[RIGHT] || domino.getPiece().values()[RIGHT] == ends[RIGHT]) {
+                        side = RIGHT;
+                    }
+                }
             }
+        }else{
+            if(ends[LEFT] == domino.getPiece().getPreference())
+                side = LEFT;
+            else
+                side = RIGHT;
         }
         return addDomino(domino, side);
 
@@ -123,26 +137,31 @@ public class Board extends JPanel {
         domino.rotate(90);
 
         if (side == LEFT) {
-            setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+            Component[] list = board.getComponents();
+            board.removeAll();
+            //board.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
             if (domino.getPiece().values()[1] == ends[LEFT]) {
                 ends[LEFT] = domino.getPiece().values()[0];
-
-            } else {
                 domino.rotate(180);
+            } else {
                 ends[LEFT] = domino.getPiece().values()[1];
             }
+            board.add(domino);
+            for (int i = 0; i < list.length; i++) {
+                board.add(list[i]);
+            }
+
         } else {
-            setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+            //board.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
             if (domino.getPiece().values()[0] == ends[RIGHT]) {
                 ends[RIGHT] = domino.getPiece().values()[1];
-
-            } else {
                 domino.rotate(180);
+            } else {
                 ends[RIGHT] = domino.getPiece().values()[0];
             }
+            board.add(domino);
         }
-
-        add(domino);
+        //board.add
 
         domino.setActive(false);
         MouseListener[] listeners = domino.getMouseListeners();

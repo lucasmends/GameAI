@@ -68,8 +68,10 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
 
         Piece piece = mediator.takeStack();
         if (piece != null) {
+           
             this.point += piece.getPoint();
             addDomino(piece);
+            RoundLogic.getInstance().setMesage("Pegou peça "+piece.getPieceName());
             doMove();
         } else {
             setOff();
@@ -117,6 +119,7 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     @Override
     public void doMove() {
         if (firstPiece >= 0) {
+            RoundLogic.getInstance().setMesage("Joguei peça "+dominos.get(firstPiece).getPiece().getPieceName());
             putOnBoard(dominos.get(firstPiece));
         } else {
             int count = 0;

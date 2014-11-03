@@ -17,7 +17,7 @@ import model.interfaces.Piece;
  *
  * @author lucas
  */
-public class RoundLogic {
+public class RoundLogic implements Runnable {
 
     private static final RoundLogic instance = new RoundLogic();
 
@@ -28,7 +28,6 @@ public class RoundLogic {
     private RoundLogic() {
         players = Game.getInstance().getPlayers();
         actualPlayer = checkFirstPlayer()[0];
-        players.get(actualPlayer).placePiece(checkFirstPlayer()[1]);
         //actualPlayer = 0;
         screen = null;
     }
@@ -38,8 +37,7 @@ public class RoundLogic {
     }
 
     public void setBoard(GameScreen board) {
-        this.screen = board;      
-        players.get(actualPlayer).doMove();
+        this.screen = board;
     }
 
     public void repaint() {
@@ -54,19 +52,21 @@ public class RoundLogic {
         } else {
             if (movePossible()) {
                 //o jogador ganhou
-                System.out.println("Ganhou");
-                
-            }else{
-               
+                System.out.println("Ganhou " + actualPlayer);
+                setMesage("O jogador " + actualPlayer + " ganhou!");
+            } else {
+
                 int winnerPlayer = 0;
                 int pontuation = 100;
                 for (int i = 0; i < players.size(); i++) {
-                    if(players.get(i).getPoint() < pontuation){
+                    if (players.get(i).getPoint() < pontuation) {
                         pontuation = players.get(i).getPoint();
                         winnerPlayer = i;
                     }
                 }
                 System.out.println("Ganhou " + winnerPlayer);
+                setMesage("Nenhuma jogada mais é possível");
+                setMesage("O jogador " + winnerPlayer + "ganhou pela pontuação " + players.get(winnerPlayer).getPoint());
                 //o jogador winnerPlayer ganhou
             }
         }
@@ -100,6 +100,7 @@ public class RoundLogic {
     }
 
     private boolean checkWin() {
+        System.out.println(players.get(actualPlayer).showHand().qtdHand() + " Player " + actualPlayer);
         if (players.get(actualPlayer).showHand().qtdHand() < 1) {
             return true;
         } else {
@@ -108,15 +109,30 @@ public class RoundLogic {
     }
 
     private boolean movePossible() {
-        if(Game.getInstance().stackRemaining() > 0)
+        if (Game.getInstance().stackRemaining() > 0) {
             return true;
-        for(Player player: players)
-        {
-            for(Domino domino: player.getDominos()){
-                if(Board.getInstance().checkPossible(domino))
+        }
+        for (Player player : players) {
+            for (Domino domino : player.getDominos()) {
+                if (Board.getInstance().checkPossible(domino)) {
                     return true;
+                }
             }
         }
         return false;
+    }
+
+    public void setMesage(String mesage){
+        screen.setMesage(mesage);
+    }
+    
+    public int getActualPlayer(){
+        return actualPlayer;
+    }
+    
+    @Override
+    public void run() {
+        players.get(actualPlayer).placePiece(checkFirstPlayer()[1]);
+        players.get(actualPlayer).doMove();
     }
 }

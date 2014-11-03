@@ -45,6 +45,7 @@ public class Bootstrap {
         GameScreen board = initBoard(qtdPlayers, qtdAI);
         board.setVisible(true);
         RoundLogic.getInstance().setBoard(board);
+        new Thread(RoundLogic.getInstance()).start();
     }
 
     private void initSWI(int qtdJogadores) {
@@ -90,14 +91,18 @@ public class Bootstrap {
         }
         boolean upDirection = false;
         for(int i = (qtdPlayers - qtdAI); i < qtdPlayers; i++){
-            PlayerAI AI = new SmartAI(handPlayer[i], upDirection);  
+            PlayerAI AI;
+            if(i < 1)
+               AI  = new SmartAI(handPlayer[i], upDirection);  
+            else
+                AI = new DumbAI(handPlayer[i], upDirection);  
             AIsGUIs.add(AI.getHand());
             Game.getInstance().addPlayer(AI);
             /*Player other = new HandPlayer(handPlayer[i]);
             ArrayList<HandGUI> l = new ArrayList<>();
             l.add((HandGUI) other);
             boardGame.addAIPlayer(l);
-            Game.getInstance().addPlayer(other);*/       
+            Game.getInstance().addPlayer(other); */    
             upDirection = true;
         }
         

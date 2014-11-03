@@ -8,6 +8,7 @@ package GUI.Hand;
 import GUI.Board;
 import GUI.model.Domino;
 import java.util.List;
+import logic.game.RoundLogic;
 import model.interfaces.Hand;
 ;
 import model.interfaces.Piece;
@@ -60,6 +61,7 @@ public class HandPlayerAI extends GUI.model.HandGUI {
     }
 
     public void remove(Piece piece) {
+        //ThreadUtils.sleep(1500);
         for (int i = 0; i < dominos.size(); i++) {
             if (dominos.get(i).getPiece().values()[0] == piece.values()[0] && dominos.get(i).getPiece().values()[1] == piece.values()[1]) {
                 Board.getInstance().addDomino(dominos.get(i));
@@ -67,6 +69,7 @@ public class HandPlayerAI extends GUI.model.HandGUI {
                 break;
             }
         }
+        RoundLogic.getInstance().nextPlayerTurn();
     }
 
     public List<Domino> getDominos() {

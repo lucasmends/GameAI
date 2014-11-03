@@ -44,6 +44,8 @@ public class MouseDominoHand implements MouseListener {
                     both[0] = Board.getInstance().corner()[0];
                     both[1] = Board.getInstance().corner()[1];
                     if (both[0].getMouseListeners() != null && both[0].getMouseListeners().length > 0) {
+                        both[0].setActive(false);
+                        both[1].setActive(false);
                         both[0].removeMouseListener(both[0].getMouseListeners()[0]);
                         both[1].removeMouseListener(both[1].getMouseListeners()[0]);
                     }

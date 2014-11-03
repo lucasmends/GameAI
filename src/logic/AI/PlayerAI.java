@@ -27,6 +27,8 @@ public abstract class PlayerAI implements Player {
     protected MediatorGame mediator = Game.getInstance();
     protected HandPlayerAI handGUI;
     protected int point;
+    private boolean first = false;
+    private int firstIndex;
 
     public PlayerAI(Hand hand, boolean upDirection) {
         this.hand = hand;
@@ -43,10 +45,11 @@ public abstract class PlayerAI implements Player {
     }
 
     @Override
-    public boolean takeFromStack() {
+    public synchronized boolean takeFromStack() {
         Piece pecaPilha = mediator.takeStack();
         if (pecaPilha != null) {
             //Colocar a logica em prolog para a pilha
+            RoundLogic.getInstance().setMesage("AI "+ RoundLogic.getInstance().getActualPlayer() + " pegou uma peça");
             this.point += pecaPilha.getPoint();
             hand.add(pecaPilha);
             handGUI.addDomino(pecaPilha, this);
@@ -56,13 +59,24 @@ public abstract class PlayerAI implements Player {
     }
 
     @Override
-    public void doMove() {
-        Piece piece = putOnBoard();
-        if (piece != null) {
-            handGUI.remove(piece);
-            mediator.informPiecePlaced(piece, this);
+    public synchronized void doMove() {
+        if (first) {
+            first = false;
+            RoundLogic.getInstance().setMesage("AI "+RoundLogic.getInstance().getActualPlayer()+" jogou peça "+hand.show(firstIndex).getPieceName());
+            handGUI.remove(hand.show(firstIndex));
+            hand.remove(hand.show(firstIndex));
+            mediator.informPiecePlaced(hand.show(firstIndex), this);
+        } else {
+            Piece piece = putOnBoard();
+            if (piece != null) {
+                RoundLogic.getInstance().setMesage("AI "+RoundLogic.getInstance().getActualPlayer()+" jogou peça "+piece.getPieceName());
+                hand.remove(piece);
+                handGUI.remove(piece);
+                mediator.informPiecePlaced(piece, this);
+            }else{
+                RoundLogic.getInstance().nextPlayerTurn();
+            }
         }
-        RoundLogic.getInstance().nextPlayerTurn();
     }
 
     @Override
@@ -92,6 +106,7 @@ public abstract class PlayerAI implements Player {
 
     @Override
     public void placePiece(int i) {
-        ;
+        first = true;
+        firstIndex = i;        
     }
 }

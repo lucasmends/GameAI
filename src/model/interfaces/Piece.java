@@ -15,6 +15,9 @@ public interface Piece {
     public int[] values();
     public Term getTerm();
     public String getFileName();
+    public String getPieceName();
+    public int getPreference();
+    
     
     public int getPoint();
 }

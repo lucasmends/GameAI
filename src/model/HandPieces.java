@@ -35,12 +35,14 @@ public class HandPieces implements Hand<Piece>{
 
     @Override
     public Piece remove(int i) {
-	return hand.remove(i);
+        return hand.remove(i);
     }
 
     @Override
     public Piece remove(Piece p) {
-	hand.remove(p);
+	System.out.println(p.getFileName());
+        hand.remove(p);
+        
 	return p;
     }
 
