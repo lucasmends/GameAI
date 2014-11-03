@@ -7,6 +7,7 @@ package logic.game;
 
 import GUI.Board;
 import GUI.GameScreen;
+import GUI.Hand.HandPlayer;
 import GUI.model.Domino;
 import model.interfaces.Player;
 import java.util.List;
@@ -24,9 +25,16 @@ public class RoundLogic implements Runnable {
     private final List<Player> players;
     private int actualPlayer;
     private GameScreen screen;
+    private boolean existsHuman = false;
 
     private RoundLogic() {
         players = Game.getInstance().getPlayers();
+        for (Player player : players) {
+            if (player instanceof HandPlayer) {
+                existsHuman = true;
+                break;
+            }
+        }
         actualPlayer = checkFirstPlayer()[0];
         //actualPlayer = 0;
         screen = null;
@@ -38,6 +46,7 @@ public class RoundLogic implements Runnable {
 
     public void setBoard(GameScreen board) {
         this.screen = board;
+        board.setStack(Game.getInstance().stackRemaining());
     }
 
     public void repaint() {
@@ -50,25 +59,24 @@ public class RoundLogic implements Runnable {
             actualPlayer = (actualPlayer + 1) % players.size();
             players.get(actualPlayer).doMove();
         } else {
-            if (movePossible()) {
-                //o jogador ganhou
-                System.out.println("Ganhou " + actualPlayer);
-                setMesage("O jogador " + actualPlayer + " ganhou!");
+            if (players.get(actualPlayer).showHand().qtdHand() < 1) {
+                System.out.println("Ganhou " + (existsHuman ? actualPlayer : (actualPlayer + 1)));
+                setMesage("O jogador " + (existsHuman ? actualPlayer : (actualPlayer + 1)) + " ganhou!");
             } else {
-
-                int winnerPlayer = 0;
-                int pontuation = 100;
-                for (int i = 0; i < players.size(); i++) {
-                    if (players.get(i).getPoint() < pontuation) {
-                        pontuation = players.get(i).getPoint();
-                        winnerPlayer = i;
+                    int winnerPlayer = 0;
+                    int pontuation = 100;
+                    for (int i = 0; i < players.size(); i++) {
+                        if (players.get(i).getPoint() < pontuation) {
+                            pontuation = players.get(i).getPoint();
+                            winnerPlayer = i;
+                        }
                     }
+                    System.out.println("Ganhou " + (existsHuman ? winnerPlayer : (winnerPlayer + 1)));
+                    setMesage("Nenhuma jogada mais é possível");
+                    setMesage("O jogador " + (existsHuman ? winnerPlayer : (winnerPlayer + 1)) + " ganhou pela pontuação " + players.get(winnerPlayer).getPoint());
+                    //o jogador winnerPlayer ganhou
                 }
-                System.out.println("Ganhou " + winnerPlayer);
-                setMesage("Nenhuma jogada mais é possível");
-                setMesage("O jogador " + winnerPlayer + "ganhou pela pontuação " + players.get(winnerPlayer).getPoint());
-                //o jogador winnerPlayer ganhou
-            }
+
         }
     }
 
@@ -102,6 +110,7 @@ public class RoundLogic implements Runnable {
     private boolean checkWin() {
         System.out.println(players.get(actualPlayer).showHand().qtdHand() + " Player " + actualPlayer);
         if (players.get(actualPlayer).showHand().qtdHand() < 1) {
+            System.out.println(true);
             return true;
         } else {
             return !movePossible();
@@ -122,14 +131,18 @@ public class RoundLogic implements Runnable {
         return false;
     }
 
-    public void setMesage(String mesage){
+    public void setMesage(String mesage) {
         screen.setMesage(mesage);
     }
-    
-    public int getActualPlayer(){
-        return actualPlayer;
+
+    public int getActualPlayer() {
+        return (existsHuman ? actualPlayer : (actualPlayer + 1));
     }
-    
+
+    public void stackRemaining(int i) {
+        this.screen.setStack(i);
+    }
+
     @Override
     public void run() {
         players.get(actualPlayer).placePiece(checkFirstPlayer()[1]);

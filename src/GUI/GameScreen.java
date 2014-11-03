@@ -6,9 +6,12 @@
 package GUI;
 
 import GUI.model.HandGUI;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.util.List;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
@@ -17,24 +20,41 @@ import javax.swing.JScrollPane;
  */
 public class GameScreen extends javax.swing.JFrame {
 
+    private javax.swing.JScrollPane jScrollMensages;
+    private javax.swing.JTextArea jTextMesage;
+    private JPanel mensageBoard;
     /**
      * Creates new form Tabuleiro
      */
     public GameScreen() {
         initComponents();
 
+        mensageBoard = new  JPanel(new BorderLayout());
+        mensageBoard.setPreferredSize(new java.awt.Dimension(240, 300));
+        jTextMesage = new javax.swing.JTextArea();
+        //jTextMesage.setPreferredSize(new java.awt.Dimension(240, 300));
+        jTextMesage.setEditable(false);
+        jScrollMensages = new javax.swing.JScrollPane(jTextMesage);
+        mensageBoard.add(jScrollMensages, BorderLayout.CENTER);
+        //jScrollMensagens.setMinimumSize(new java.awt.Dimension(240, 30000));
+        //jScrollMensagens.setPreferredSize(new java.awt.Dimension(240, 300));
         /*jScrollMensagens.setPreferredSize(new Dimension(900, 200));
-        jScrollMensagens.setMinimumSize(new Dimension(900, 200));
-        jTextMesage.setMaximumSize(new Dimension(90, 30000));*/
-        
+         jScrollMensagens.setMinimumSize(new Dimension(900, 200));
+         jTextMesage.setMaximumSize(new Dimension(90, 30000));*/
         java.awt.GridBagConstraints gridBagConstraints;
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 1;
+        getContentPane().add(mensageBoard, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
 
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
 
         gridBagConstraints.fill = GridBagConstraints.BOTH;
-        
+
         getContentPane().add(Board.getInstance(), gridBagConstraints);
         pack();
     }
@@ -49,48 +69,19 @@ public class GameScreen extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        MensageBoard = new javax.swing.JPanel();
-        jScrollMensagens = new javax.swing.JScrollPane();
-        jTextMesage = new javax.swing.JTextArea();
+        StackLeft = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Jogo de Dominó");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jScrollMensagens.setAutoscrolls(true);
-        jScrollMensagens.setMinimumSize(new java.awt.Dimension(257, 451));
-        jScrollMensagens.setPreferredSize(new java.awt.Dimension(257, 451));
-
-        jTextMesage.setEditable(false);
-        jTextMesage.setColumns(20);
-        jTextMesage.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jTextMesage.setRows(5);
-        jTextMesage.setFocusable(false);
-        jTextMesage.setMinimumSize(new java.awt.Dimension(160, 300));
-        jTextMesage.setPreferredSize(new java.awt.Dimension(240, 300));
-        jScrollMensagens.setViewportView(jTextMesage);
-
-        javax.swing.GroupLayout MensageBoardLayout = new javax.swing.GroupLayout(MensageBoard);
-        MensageBoard.setLayout(MensageBoardLayout);
-        MensageBoardLayout.setHorizontalGroup(
-            MensageBoardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(MensageBoardLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollMensagens, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        MensageBoardLayout.setVerticalGroup(
-            MensageBoardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MensageBoardLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollMensagens, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
+        StackLeft.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        StackLeft.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        StackLeft.setText("jLabel1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 1;
-        getContentPane().add(MensageBoard, gridBagConstraints);
+        gridBagConstraints.gridy = 2;
+        getContentPane().add(StackLeft, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -104,38 +95,86 @@ public class GameScreen extends javax.swing.JFrame {
     }
 
     public void addAIPlayer(List<HandGUI> players) {
-        java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
+        JPanel aiPanel;
 
+        JLabel label;
+        java.awt.GridBagConstraints gridBagConstraints;
+
+        aiPanel = new JPanel(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        label = new JLabel(new StringBuilder("AI ").append(1).toString());
+        label.setFont(new java.awt.Font("Arial", 1, 18));
+        aiPanel.add(label, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        aiPanel.add(players.get(0), gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        getContentPane().add(players.get(0), gridBagConstraints);
+        getContentPane().add(aiPanel, gridBagConstraints);
         //add((JPanel) players.get(0));
 
         if (players.size() > 1) {
+            aiPanel = new JPanel(new java.awt.GridBagLayout());
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+            label = new JLabel(new StringBuilder("AI ").append(2).toString());
+            label.setFont(new java.awt.Font("Arial", 1, 18));
+            aiPanel.add(label, gridBagConstraints);
+
             gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.gridx = 0;
             gridBagConstraints.gridy = 1;
-            getContentPane().add(players.get(1), gridBagConstraints);
+            aiPanel.add(players.get(1), gridBagConstraints);
+
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 1;
+            getContentPane().add(aiPanel, gridBagConstraints);
             //add((JPanel) players.get(1));
         }
         if (players.size() > 2) {
+            aiPanel = new JPanel(new java.awt.GridBagLayout());
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 0;
+            gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+            label = new JLabel(new StringBuilder("AI ").append(3).toString());
+            label.setFont(new java.awt.Font("Arial", 1, 18));
+            aiPanel.add(label, gridBagConstraints);
+
+            gridBagConstraints = new java.awt.GridBagConstraints();
+            gridBagConstraints.gridx = 0;
+            gridBagConstraints.gridy = 1;
+            aiPanel.add(players.get(2), gridBagConstraints);
+
             gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.gridx = 2;
             gridBagConstraints.gridy = 1;
-            getContentPane().add(players.get(2), gridBagConstraints);
+            getContentPane().add(aiPanel, gridBagConstraints);
             //add((JPanel) players.get(2));
         }
 
         pack();
     }
 
-    public void setMesage(String mesage){
+    public void setMesage(String mesage) {
         jTextMesage.append(mesage.concat("\n"));
     }
-    
+
+    public void setStack(int left) {
+        StackLeft.setText(new StringBuilder("Faltam ").append(left).append(" na pilha").toString());
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel MensageBoard;
-    private javax.swing.JScrollPane jScrollMensagens;
-    private javax.swing.JTextArea jTextMesage;
+    private javax.swing.JLabel StackLeft;
     // End of variables declaration//GEN-END:variables
 }

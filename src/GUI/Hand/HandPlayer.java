@@ -3,6 +3,7 @@ package GUI.Hand;
 import GUI.Board;
 import GUI.model.Domino;
 import GUI.model.event.MouseDominoHand;
+import java.awt.Dimension;
 import java.util.List;
 import logic.game.RoundLogic;
 import model.interfaces.Player;
@@ -24,8 +25,7 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     private int firstPiece = -1;
 
     public HandPlayer(Hand<Piece> hand) {
-        super(hand);
-
+        super(hand);       
         piecesToDomino(false);
 
         for (Domino domino : dominos) {
@@ -68,13 +68,14 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
 
         Piece piece = mediator.takeStack();
         if (piece != null) {
-           
+
             this.point += piece.getPoint();
             addDomino(piece);
-            RoundLogic.getInstance().setMesage("Pegou peça "+piece.getPieceName());
+            RoundLogic.getInstance().setMesage("Peguei peça " + piece.getPieceName());
             doMove();
         } else {
             setOff();
+            RoundLogic.getInstance().setMesage("Passei");
             RoundLogic.getInstance().nextPlayerTurn();
         }
     }
@@ -106,7 +107,8 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
         }
 
         mediator.informPiecePlaced(domino.getPiece(), this);
-
+        RoundLogic.getInstance().setMesage("Joguei peça " + domino.getPiece().getPieceName());
+        
         removeFromHand(domino);
 
         hand.remove(domino.getPiece());
@@ -119,7 +121,6 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     @Override
     public void doMove() {
         if (firstPiece >= 0) {
-            RoundLogic.getInstance().setMesage("Joguei peça "+dominos.get(firstPiece).getPiece().getPieceName());
             putOnBoard(dominos.get(firstPiece));
         } else {
             int count = 0;

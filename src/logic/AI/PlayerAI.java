@@ -70,10 +70,12 @@ public abstract class PlayerAI implements Player {
             Piece piece = putOnBoard();
             if (piece != null) {
                 RoundLogic.getInstance().setMesage("AI "+RoundLogic.getInstance().getActualPlayer()+" jogou peça "+piece.getPieceName());
+                this.point -= piece.getPoint();
                 hand.remove(piece);
                 handGUI.remove(piece);
                 mediator.informPiecePlaced(piece, this);
             }else{
+                RoundLogic.getInstance().setMesage("AI " + RoundLogic.getInstance().getActualPlayer() + " passou a vez");
                 RoundLogic.getInstance().nextPlayerTurn();
             }
         }

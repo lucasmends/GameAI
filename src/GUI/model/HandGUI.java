@@ -5,6 +5,7 @@
  */
 package GUI.model;
 
+import java.awt.Dimension;
 import logic.game.RoundLogic;
 import logic.game.Game;
 import logic.game.MediatorGame;

@@ -50,6 +50,7 @@ public class Game implements MediatorGame {
     @Override
     public Piece takeStack() {
         if (stack.qtdRemaining() > 0) {
+            RoundLogic.getInstance().stackRemaining(stack.qtdRemaining());
             return (Piece) stack.getNext();
         }
         return null;
