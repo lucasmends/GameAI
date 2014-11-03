@@ -29,13 +29,6 @@ public class Board extends JPanel {
     public static final int LEFT = 0;
     public static final int RIGHT = 1;
 
-    private int orientationLeft = -1;
-    private int orientationRight = 1;
-    private int countLeft = 0;
-    private int countRight = 0;
-    private int maxLeft = 6;
-    private int maxRight = 6;
-
     private final int X = 0;
     private final int Y = 1;
 
@@ -47,7 +40,6 @@ public class Board extends JPanel {
     private final int right[];
 
     //private final JPanel board;
-
     private Board() {
         //board = new JPanel(new java.awt.GridLayout());
         dominos = new LinkedList<>();
@@ -72,8 +64,9 @@ public class Board extends JPanel {
         //setViewportView(board);
         setLayout(new java.awt.FlowLayout(FlowLayout.CENTER));
         //setLayout(new java.awt.GridBagLayout());
-        setMinimumSize(new Dimension(1040, 560));
-        setPreferredSize(new Dimension(1040, 560));
+        //setMaximumSize(new Dimension(20024, 230));
+        setMinimumSize(new Dimension(230, 230));
+        setPreferredSize(new Dimension(230, 230));
     }
 
     public boolean addDomino(Domino domino) {
@@ -129,23 +122,22 @@ public class Board extends JPanel {
         //}
         domino.rotate(90);
 
-        java.awt.GridBagConstraints gridBagConstraints;
-        gridBagConstraints = new java.awt.GridBagConstraints();
-
         if (side == LEFT) {
             setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
             if (domino.getPiece().values()[1] == ends[LEFT]) {
                 ends[LEFT] = domino.getPiece().values()[0];
-                    domino.rotate(180);
+
             } else {
+                domino.rotate(180);
                 ends[LEFT] = domino.getPiece().values()[1];
             }
         } else {
             setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
             if (domino.getPiece().values()[0] == ends[RIGHT]) {
                 ends[RIGHT] = domino.getPiece().values()[1];
-                    domino.rotate(180);
+
             } else {
+                domino.rotate(180);
                 ends[RIGHT] = domino.getPiece().values()[0];
             }
         }

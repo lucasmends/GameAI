@@ -40,6 +40,13 @@ public class MouseDominoHand implements MouseListener {
                 clicked = true;
                 if (Board.getInstance().dominoPossibilities(domino) < 2) {
                     //System.out.println(me.toString());
+                    Domino[] both = new Domino[2];
+                    both[0] = Board.getInstance().corner()[0];
+                    both[1] = Board.getInstance().corner()[1];
+                    if (both[0].getMouseListeners() != null && both[0].getMouseListeners().length > 0) {
+                        both[0].removeMouseListener(both[0].getMouseListeners()[0]);
+                        both[1].removeMouseListener(both[1].getMouseListeners()[0]);
+                    }
                     HandPlayer human = (HandPlayer) player;
                     human.putOnBoard(domino);
                 } else {
