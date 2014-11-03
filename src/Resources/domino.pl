@@ -3,6 +3,11 @@
 concat([], L2, L2).
 concat([A|L1], L2, LF) :- concat(L1, [A|L2], LF).
 
+% CONTAR O TAMANHO DA LISTA
+
+size([], 0).
+size([_|L], P) :- size(L, Plinha), P is Plinha+1.
+
 % TODAS AS PEÇAS AINDA NÃO PERTENCEM A NINGUÉM
 
 listar_pecas(L) :- L =
@@ -50,9 +55,11 @@ encaixavel(peca(A, B), _, B, peca(B, A)) :- !.
 
 % PREPARAR LISTA DE PEÇAS JOGÁVEIS
 
-preparar([], _, _, [], 0).
-preparar([peca(A, B)|Pecas], Esq, Dir, [peca(C, D)|Possiveis], P) :- encaixavel(peca(A, B), Esq, Dir, peca(C, D)), !, preparar(Pecas, Esq, Dir, Possiveis, P1), P is P1+1.
-preparar([_|Pecas], Esq, Dir, Possiveis, P) :- preparar(Pecas, Esq, Dir, Possiveis, P).
+preparar([], _, _, []).
+preparar([peca(A, B)|Pecas], Esq, Dir, [peca(C, D)|Possiveis]) :- 
+    encaixavel(peca(A, B), Esq, Dir, peca(C, D)), !, preparar(Pecas, Esq, Dir, Possiveis).
+preparar([_|Pecas], Esq, Dir, Possiveis) :- 
+    preparar(Pecas, Esq, Dir, Possiveis).
 
 /*
  *  INTELIGÊNCIA ARTIFICAL
@@ -60,69 +67,76 @@ preparar([_|Pecas], Esq, Dir, Possiveis, P) :- preparar(Pecas, Esq, Dir, Possive
 
 % AI BURRA: tudo no sort
 
-dumb(Lista, Esq, Dir, _) :- preparar(Lista, Esq, Dir, _, P), P == 0, !, fail.
+dumb(Lista, Esq, Dir, _) :- preparar(Lista, Esq, Dir, L), L = [], !, fail.
 
-dumb(Lista, Esq, Dir, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial, _),
+dumb(Lista, Esq, Dir, peca(A, B)) :- preparar(Lista, Esq, Dir, ListaInicial),
 	random_permutation(ListaInicial, [peca(C,D)|_]),
 	preparar_peca(peca(C, D), peca(A, B)).
 
 % AI ESPERTA
 
-smart(Lista, _, Esq, Dir, _, _, _) :- preparar(Lista, Esq, Dir, _, P), P == 0, !, fail.
+smart(Lista, _, Esq, Dir, _, _, _) :- preparar(Lista, Esq, Dir, L), L = [], !, fail.
 
 smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :-
+	size(Lista, P), P<MelhorInimigo, !,
 	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
 	subtract(Todas, Outras, Inimigas),
-	preparar(Lista, Esq, Dir, ListaInicial, P1),
-	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
-	P1<MelhorInimigo, !,
+	preparar(Lista, Esq, Dir, ListaInicial),
+	preparar(Inimigas, Esq, Dir, PecasInimigas),
 	combo(ListaInicial, [], PecasInimigas, Nini, ListaFinal),
-	maior(ListaFinal, _, peca(C, D)),
-	preparar_peca(peca(C, D), peca(A, B)).
+	maior(ListaFinal, _, peca(A, B)).
 
 smart(Lista, Jogadas, Esq, Dir, MelhorInimigo, Nini, peca(A, B)) :- 
+	size(Lista, P), P == MelhorInimigo, maybe, !,
 	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
 	subtract(Todas, Outras, Inimigas),
-	preparar(Lista, Esq, Dir, ListaInicial, P1),
-	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
-	P1 == MelhorInimigo, maybe, !,
+	preparar(Lista, Esq, Dir, ListaInicial),
+	preparar(Inimigas, Esq, Dir, PecasInimigas),
 	combo(ListaInicial, [], PecasInimigas, Nini, ListaFinal),
-	maior(ListaFinal, _, peca(C, D)),
-	preparar_peca(peca(C, D), peca(A, B)).
+	maior(ListaFinal, _, peca(A, B)).
 
 smart(Lista, Jogadas, Esq, Dir, _, _, peca(A, B)) :- 
 	concat(Lista, Jogadas, Outras), listar_pecas(Todas),
 	subtract(Todas, Outras, Inimigas),
-	preparar(Lista, Esq, Dir, ListaInicial, _),
-	preparar(Inimigas, Esq, Dir, PecasInimigas, _),
+	preparar(Lista, Esq, Dir, ListaInicial),
+	preparar(Inimigas, Esq, Dir, PecasInimigas),
 	evitar(ListaInicial, [], PecasInimigas, ListaFinal),
-	maior(ListaFinal, _, peca(C, D)),
-	preparar_peca(peca(C, D), peca(A, B)).
+	maior(ListaFinal, _, peca(A, B)).
 
 % COMBO - tenta colocar uma peça com a maior probabilide de um inimigo colocá-la e eu poder colocar de novo
 
 combo([], _, _, _, []).
+
 combo([peca(A, B)|L], LA, PecasInimigas, Nini, [[peca(A, B), P]|L2]) :- 
     combo(L, [peca(A, B)|LA], PecasInimigas, Nini, L2),
     concat(L, LA, LC),
-    contar_peca(LC, peca(A, B), [], PecasInimigas, Nini, P).
+    peca_combo(LC, peca(A, B), [], PecasInimigas, Nini, P).
     
-contar_peca([], peca(_, _), _, _, 0, 0) :- !.
-contar_peca([peca(B, _)|LC], peca(A, B), _, _, 0, P) :- !,
-    contar_peca(LC, peca(A, B), _, _, 0, P1), P is P1+1.
-contar_peca([peca(_, B)|LC], peca(A, B), _, _, 0, P) :- !,
-    contar_peca(LC, peca(A, B), _, _, 0, P1), P is P1+1.
-contar_peca([peca(_, _)|LC], peca(A, B), _, _, P) :- !,
-    contar_peca(LC, peca(A, B), _, _, 0, P).
+peca_combo([], peca(_, _), _, _, 0, P) :- P is 0, !.
 
-contar_peca(LC, peca(A, B), PIA, [peca(B, C)|PID], Nini, P) :- !,
+peca_combo([peca(B, _)|LC], peca(A, B), _, _, 0, P) :- !,
+    peca_combo(LC, peca(A, B), _, _, 0, P1), P is P1+1.
+
+peca_combo([peca(_, B)|LC], peca(A, B), _, _, 0, P) :- !,
+    peca_combo(LC, peca(A, B), _, _, 0, P1), P is P1+1.
+
+peca_combo([peca(_, _)|LC], peca(A, B), _, _, 0, P) :- !,
+    peca_combo(LC, peca(A, B), _, _, 0, P).
+
+peca_combo(_, peca(_, _), _, [], _, 0) :- !.
+
+peca_combo(LC, peca(A, B), PIA, [peca(B, C)|PID], Nini, P) :- !,
     concat(PIA, PID, PIF), Nini2 is Nini-1,
-    contar_peca(LC, peca(A, B), [peca(B, C)|PIA], PID, Nini, P2), 
-    contar_peca(LC, peca(B, C), [], PIF, Nini2, P1), P is P1+P2.
-contar_peca(LC, peca(A, B), PIA, [peca(C, B)|PID], Nini, P) :- !,
+    peca_combo(LC, peca(A, B), [peca(B, C)|PIA], PID, Nini, P2), 
+    peca_combo(LC, peca(B, C), [], PIF, Nini2, P1), P is P1+P2.
+
+peca_combo(LC, peca(A, B), PIA, [peca(C, B)|PID], Nini, P) :- !,
     concat(PIA, PID, PIF), Nini2 is Nini-1,
-    contar_peca(LC, peca(A, B), [peca(C, B)|PIA], PID, Nini, P2),
-    contar_peca(LC, peca(C, B), [], PIF, Nini2, P1), P is P1+P2.
+    peca_combo(LC, peca(A, B), [peca(C, B)|PIA], PID, Nini, P2),
+    peca_combo(LC, peca(C, B), [], PIF, Nini2, P1), P is P1+P2.
+
+peca_combo(LC, peca(A, B), PIA, [peca(C, D)|PID], Nini, P) :- !,
+    peca_combo(LC, peca(A, B), [peca(C, D)|PIA], PID, Nini, P).
 
 % EVITAR - evita que o inimigo consiga colocar sua peca
 
