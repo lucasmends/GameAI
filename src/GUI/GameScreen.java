@@ -45,9 +45,15 @@ public class GameScreen extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
         gridBagConstraints = new java.awt.GridBagConstraints();
 
+        
+        javax.swing.Box.Filler filler = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
+        JPanel mensagePanel = new JPanel();
+        mensagePanel.add(filler);
+        mensagePanel.add(mensageBoard);
+        
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        getContentPane().add(mensageBoard, gridBagConstraints);
+        getContentPane().add(mensagePanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
 
@@ -206,12 +212,17 @@ public class GameScreen extends javax.swing.JFrame {
                 gridBagConstraints.gridx = 0;
                 gridBagConstraints.gridy = 1;
                 break;
-            default:
+            case 2:
                 gridBagConstraints.gridx = 2;
                 gridBagConstraints.gridy = 1;
+                break;
+            default:
+                gridBagConstraints.gridx = 1;
+                gridBagConstraints.gridy = 2;
+
         }
 
-        add(aiPanel, gridBagConstraints);
+        getContentPane().add(aiPanel, gridBagConstraints);
     }
 
     public void setMesage(String mesage) {

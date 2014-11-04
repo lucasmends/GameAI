@@ -82,7 +82,8 @@ public class SelectDificult extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel1.setText("Selecionar Dificuldade");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -126,7 +127,7 @@ public class SelectDificult extends javax.swing.JDialog {
             }
             Game.getInstance().addPlayer(AI);
             boardGame.addAIPlayer(AI.getHand(), (String) AIsBox[i].getSelectedItem(), i);
-            upDirection = true;
+            upDirection = (i == 0 || i == 1);
         }
         this.dispose();
     }//GEN-LAST:event_OKActionPerformed
