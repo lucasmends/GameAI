@@ -45,12 +45,11 @@ public class GameScreen extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
         gridBagConstraints = new java.awt.GridBagConstraints();
 
-        
         javax.swing.Box.Filler filler = new javax.swing.Box.Filler(new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 0), new java.awt.Dimension(10, 32767));
         JPanel mensagePanel = new JPanel();
         mensagePanel.add(filler);
         mensagePanel.add(mensageBoard);
-        
+
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         getContentPane().add(mensagePanel, gridBagConstraints);
@@ -226,8 +225,9 @@ public class GameScreen extends javax.swing.JFrame {
     }
 
     public void setMesage(String mesage) {
-        String update = Integer.toString(id++) + ": " + mesage + "\n" + jTextMesage.getText();
-        jTextMesage.setText(update);
+        String old = jTextMesage.getText();
+        jTextMesage.setText(Integer.toString(id++) + ": " + mesage + "\n");
+        jTextMesage.append(old);
     }
 
     public void setStack(int left) {
