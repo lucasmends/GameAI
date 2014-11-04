@@ -23,13 +23,14 @@ public class GameScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollMensages;
     private javax.swing.JTextArea jTextMesage;
     private JPanel mensageBoard;
+
     /**
      * Creates new form Tabuleiro
      */
     public GameScreen() {
         initComponents();
 
-        mensageBoard = new  JPanel(new BorderLayout());
+        mensageBoard = new JPanel(new BorderLayout());
         mensageBoard.setPreferredSize(new java.awt.Dimension(240, 300));
         jTextMesage = new javax.swing.JTextArea();
         //jTextMesage.setPreferredSize(new java.awt.Dimension(240, 300));
@@ -73,7 +74,11 @@ public class GameScreen extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Jogo de Dominó");
-        getContentPane().setLayout(new java.awt.GridBagLayout());
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setExtendedState(6);
+        java.awt.GridBagLayout layout = new java.awt.GridBagLayout();
+        layout.columnWidths = new int[] {0, 2, 0};
+        getContentPane().setLayout(layout);
 
         StackLeft.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         StackLeft.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -94,18 +99,19 @@ public class GameScreen extends javax.swing.JFrame {
         //add((JPanel) human);       
     }
 
-    public void addAIPlayer(List<HandGUI> players) {
+    public void addAIPlayers(List<HandGUI> players) {
         JPanel aiPanel;
 
         JLabel label;
         java.awt.GridBagConstraints gridBagConstraints;
 
         aiPanel = new JPanel(new java.awt.GridBagLayout());
+        aiPanel.setMinimumSize(new Dimension(10, 200));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-        label = new JLabel(new StringBuilder("AI ").append(1).toString());
+        label = new JLabel(new StringBuilder("SmartAI ").append(1).toString());
         label.setFont(new java.awt.Font("Arial", 1, 18));
         aiPanel.add(label, gridBagConstraints);
 
@@ -122,11 +128,12 @@ public class GameScreen extends javax.swing.JFrame {
 
         if (players.size() > 1) {
             aiPanel = new JPanel(new java.awt.GridBagLayout());
+            aiPanel.setMinimumSize(new Dimension(300, 90));
             gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.gridx = 0;
             gridBagConstraints.gridy = 0;
             gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-            label = new JLabel(new StringBuilder("AI ").append(2).toString());
+            label = new JLabel(new StringBuilder("DumbAI ").append(2).toString());
             label.setFont(new java.awt.Font("Arial", 1, 18));
             aiPanel.add(label, gridBagConstraints);
 
@@ -143,11 +150,12 @@ public class GameScreen extends javax.swing.JFrame {
         }
         if (players.size() > 2) {
             aiPanel = new JPanel(new java.awt.GridBagLayout());
+            aiPanel.setMinimumSize(new Dimension(300, 90));
             gridBagConstraints = new java.awt.GridBagConstraints();
             gridBagConstraints.gridx = 0;
             gridBagConstraints.gridy = 0;
             gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
-            label = new JLabel(new StringBuilder("AI ").append(3).toString());
+            label = new JLabel(new StringBuilder("DumbAI ").append(3).toString());
             label.setFont(new java.awt.Font("Arial", 1, 18));
             aiPanel.add(label, gridBagConstraints);
 
@@ -166,14 +174,56 @@ public class GameScreen extends javax.swing.JFrame {
         pack();
     }
 
+    public void addAIPlayer(HandGUI player, String name, int id) {
+        JPanel aiPanel;
+
+        JLabel label;
+        java.awt.GridBagConstraints gridBagConstraints;
+        label = new JLabel(new StringBuilder(name).append(id + 1).toString());
+        label.setFont(new java.awt.Font("Arial", 1, 18));
+
+        aiPanel = new JPanel(new java.awt.GridBagLayout());
+        aiPanel.setMinimumSize(new Dimension(10, 200));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = GridBagConstraints.HORIZONTAL;
+        aiPanel.add(label, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        aiPanel.add(player, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+
+        switch (id) {
+            case 0:
+                gridBagConstraints.gridx = 1;
+                gridBagConstraints.gridy = 0;
+                break;
+            case 1:
+                gridBagConstraints.gridx = 0;
+                gridBagConstraints.gridy = 1;
+                break;
+            default:
+                gridBagConstraints.gridx = 2;
+                gridBagConstraints.gridy = 1;
+        }
+
+        add(aiPanel, gridBagConstraints);
+    }
+
     public void setMesage(String mesage) {
-        jTextMesage.append(mesage.concat("\n"));
+        String update = Integer.toString(id++) + ": " + mesage + "\n" + jTextMesage.getText();
+        jTextMesage.setText(update);
     }
 
     public void setStack(int left) {
         StackLeft.setText(new StringBuilder("Faltam ").append(left).append(" na pilha").toString());
     }
 
+    private int id = 0;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel StackLeft;
     // End of variables declaration//GEN-END:variables

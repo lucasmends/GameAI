@@ -25,7 +25,8 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
     private int firstPiece = -1;
 
     public HandPlayer(Hand<Piece> hand) {
-        super(hand);       
+        super(hand);
+        setMinimumSize(new Dimension(90, 200));
         piecesToDomino(false);
 
         for (Domino domino : dominos) {
@@ -76,6 +77,11 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
         } else {
             setOff();
             RoundLogic.getInstance().setMesage("Passei");
+            try{
+                Thread.sleep(2000);
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }
             RoundLogic.getInstance().nextPlayerTurn();
         }
     }
@@ -106,7 +112,7 @@ public class HandPlayer extends GUI.model.HandGUI implements Player {
             firstPiece = -1;
         }
 
-        mediator.informPiecePlaced(domino.getPiece(), this);
+        //mediator.informPiecePlaced(domino.getPiece(), this);
         RoundLogic.getInstance().setMesage("Joguei peça " + domino.getPiece().getPieceName());
         
         removeFromHand(domino);

@@ -16,9 +16,7 @@ import javax.swing.JFrame;
  */
 public class InitScreen extends javax.swing.JDialog {
 
-    /**
-     * Creates new form Inicio
-     */
+
     public InitScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -57,6 +55,7 @@ public class InitScreen extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Jogo de dominó");
+        setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         Titulo.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N

@@ -10,6 +10,7 @@ import model.interfaces.Player;
 import model.interfaces.Hand;
 import GUI.GameScreen;
 import GUI.Hand.HandPlayer;
+import GUI.SelectDificult;
 import GUI.model.HandGUI;
 import logic.game.Game;
 import model.HandPieces;
@@ -23,8 +24,7 @@ import jpl.Query;
 import jpl.Term;
 import jpl.Util;
 import jpl.Variable;
-import logic.AI.DumbAI;
-import logic.AI.SmartAI;
+import logic.AI.*;
 import model.interfaces.Piece;
 import model.ConcretePiece;
 
@@ -82,31 +82,39 @@ public class Bootstrap {
 
     private GameScreen initBoard(int qtdPlayers, int qtdAI){
         GameScreen boardGame = new GameScreen();
-        List<HandGUI> AIsGUIs = new ArrayList<>(qtdAI);
+        //List<HandGUI> AIsGUIs = new ArrayList<>(qtdAI);
         
-        if(qtdPlayers - qtdAI > 0){
+        if((qtdPlayers - qtdAI) > 0){
             Player human = new HandPlayer(handPlayer[0]);
             boardGame.addHumanPlayer((HandGUI) human);
             Game.getInstance().addPlayer(human);
         }
-        boolean upDirection = false;
+        
+        Hand handPlayerAI[] = new Hand[qtdAI];
+        if((qtdPlayers - qtdAI) > 0){
+            for(int i = 0; i < qtdAI; i++)
+                handPlayerAI[i] = handPlayer[i+1];
+        }else{
+            for(int i = 0; i < qtdAI; i++){
+                handPlayerAI[i] = handPlayer[i];
+            }
+        }
+        
+        new SelectDificult(qtdAI, boardGame, handPlayerAI).setVisible(true);
+        /*boolean upDirection = false;
         for(int i = (qtdPlayers - qtdAI); i < qtdPlayers; i++){
             PlayerAI AI;
             if(i < 1)
-               AI  = new SmartAI(handPlayer[i], upDirection);  
+               AI  = new PointAI(handPlayer[i], upDirection);  
             else
                 AI = new DumbAI(handPlayer[i], upDirection);  
             AIsGUIs.add(AI.getHand());
             Game.getInstance().addPlayer(AI);
-            /*Player other = new HandPlayer(handPlayer[i]);
-            ArrayList<HandGUI> l = new ArrayList<>();
-            l.add((HandGUI) other);
-            boardGame.addAIPlayer(l);
-            Game.getInstance().addPlayer(other); */    
+  
             upDirection = true;
         }
         
-        boardGame.addAIPlayer(AIsGUIs);
+        boardGame.addAIPlayers(AIsGUIs);*/
         
         return boardGame;
     }

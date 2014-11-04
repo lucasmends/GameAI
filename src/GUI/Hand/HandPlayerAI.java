@@ -7,6 +7,7 @@ package GUI.Hand;
 
 import GUI.Board;
 import GUI.model.Domino;
+import java.awt.Dimension;
 import java.util.List;
 import logic.game.RoundLogic;
 import model.interfaces.Hand;

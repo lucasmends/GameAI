@@ -19,7 +19,7 @@ public interface MediatorGame {
     public void addPlayer(Player player);
     public void setStack(Stack stack);
     public Piece takeStack();
-    public void informPiecePlaced(Piece piece, Player player);
+    //public void informPiecePlaced(Piece piece, Player player);
     public int[] checkPiecesRemainig(Player player);
     public int[] checkFreeSlots();
     public int getNumberOfPlayers();

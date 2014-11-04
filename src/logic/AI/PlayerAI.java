@@ -65,7 +65,7 @@ public abstract class PlayerAI implements Player {
             RoundLogic.getInstance().setMesage("AI "+RoundLogic.getInstance().getActualPlayer()+" jogou peça "+hand.show(firstIndex).getPieceName());
             handGUI.remove(hand.show(firstIndex));
             hand.remove(hand.show(firstIndex));
-            mediator.informPiecePlaced(hand.show(firstIndex), this);
+            //mediator.informPiecePlaced(hand.show(firstIndex), this);
         } else {
             Piece piece = putOnBoard();
             if (piece != null) {
@@ -73,7 +73,7 @@ public abstract class PlayerAI implements Player {
                 this.point -= piece.getPoint();
                 hand.remove(piece);
                 handGUI.remove(piece);
-                mediator.informPiecePlaced(piece, this);
+                //mediator.informPiecePlaced(piece, this);
             }else{
                 RoundLogic.getInstance().setMesage("AI " + RoundLogic.getInstance().getActualPlayer() + " passou a vez");
                 RoundLogic.getInstance().nextPlayerTurn();

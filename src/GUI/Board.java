@@ -69,7 +69,9 @@ public class Board extends JScrollPane {
         board.setLayout(new FlowLayout(FlowLayout.CENTER));
         //setMinimumSize(new Dimension(230, 230));
         setViewportBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        setPreferredSize(new Dimension(730, 90));
+        setMaximumSize(new Dimension(600, 390));
+        setPreferredSize(new Dimension(600, 390));
+        setMinimumSize(new Dimension(600, 390));
     }
 
     public boolean addDomino(Domino domino) {
@@ -134,7 +136,8 @@ public class Board extends JScrollPane {
         //if (domino.getPlayer() instanceof PlayerAI) {
         domino.changeImage();
         //}
-        domino.rotate(90);
+        if(domino.getPiece().values()[0] != domino.getPiece().values()[1])
+            domino.rotate(90);
 
         if (side == LEFT) {
             Component[] list = board.getComponents();

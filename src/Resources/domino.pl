@@ -172,3 +172,26 @@ maior([[peca(A, B), P]|_], P, peca(A, B)).
 
 preparar_peca(peca(A, B), peca(A, B)) :- A =< B, !.
 preparar_peca(peca(A, B), peca(B, A)).
+
+
+% point AI
+
+pointAI(Lista, Esq, Dir, peca(A, B)) :- 
+    preparar(Lista, Esq, Dir, ListaInicial),
+    pontuacao_lista(ListaInicial, ListaPontuada),existeDupla(ListaPontuada, P, peca(A,B)),!.
+
+pointAI(Lista, Esq, Dir, peca(A, B)) :- 
+    preparar(Lista, Esq, Dir, ListaInicial),
+    pontuacao_lista(ListaInicial, ListaPontuada),maior(ListaPontuada, _, peca(A, B)).
+
+
+pontuacao(peca(A,B), C) :- (A>B), !, C is A-B.
+pontuacao(peca(A,B), C) :- C is B-A.
+
+pontuacao_lista([], []).
+pontuacao_lista([peca(A, B)|L], [[peca(A, B), P]|LP]) :- pontuacao_lista(L, LP), pontuacao(peca(A, B), P).
+
+existeDupla([peca(A, A), P], P, peca(A, A)) :- !.
+existeDupla([[peca(A, B), P]|L], M1, peca(C, D)) :- existeDupla([peca(A, B), P], M1, peca(C, D)),!.
+existeDupla([[peca(_, _), P]|L], M1, peca(C, D)) :- existeDupla(L, M1, peca(C, D)),!.
+%existeDupla([[peca(A, B), P]|_], P, peca(A, B)).

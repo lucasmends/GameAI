@@ -60,7 +60,7 @@ public class Game implements MediatorGame {
         return this.players;
     }
 
-    @Override
+    /*@Override
     public void informPiecePlaced(Piece piece, Player player) {
 
         for (Player play : players) {
@@ -68,7 +68,7 @@ public class Game implements MediatorGame {
                 play.piecePlaced(piece);
             }
         }
-    }
+    }*/
 
     @Override
     public int[] checkPiecesRemainig(Player player) {
